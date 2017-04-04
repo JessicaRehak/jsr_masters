@@ -1,0 +1,50 @@
+\documentclass[12pt,masters]{style/ucbthesis}
+%\includeonly{include/method}
+\usepackage{style/basic}
+\usepackage{style/glossary}
+%\usepackage{style/my_format}
+\usepackage{style/commands}
+\usepackage{style/matlab}
+\def\wdt{\gls{wdt}}
+
+
+\input{include/glossary/gls}
+
+\begin{document}
+
+\title{Weighted Delta-Tracking with Scattering implemented in the
+  Serpent 2 Monte Carlo Code}
+\author{J.S. Rehak}
+\degreesemester{Spring}
+\degreeyear{2017}
+\degree{Masters of Science}
+\chair{Professor Rachael Slaybaugh}
+\othermembers{Professor ?? \\
+  Professor ??}
+\numberofmembers{3}
+\field{Nuclear Engineering}
+\campus{Berkeley}
+
+%% ==== OPENING ====================
+\include{include/frontmatter}
+
+\pagestyle{headings}
+
+%% ===== MAIN BODY ====================
+
+%\include{include/intro}
+%\include{background}
+\include{include/method}
+%\include{results}
+%\include{conclusion}
+
+\printglossary[type=\acronymtype,title=Abreviations,nonumberlist]
+
+\bibliographystyle{plain}
+\bibliography{include/bibliography/bib}
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
