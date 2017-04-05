@@ -302,7 +302,31 @@ probability is independent of path length $s$, but is dependent on
 position $\vec{r}$. At each collision, the material region at the
 neutron position must be determined, but we do not need to explicitly
 track boundaries nor calculate their distance each time a path length
-is sampled.
+is sampled. The algorithm for delta-tracking is shown in
+Fig.~\ref{fig:dt}.
+
+\begin{figure}[p]
+  \centering
+  \begin{algorithm}[H]
+\caption{Delta-tracking}\label{alg:dt}
+\begin{algorithmic}[1]
+  \State \textbf{Sample} path length
+
+  \State \textbf{Look up} location to get $\Sigma_t(\vec{r})$
+  \State $P_\mathrm{real} \gets
+  \frac{\Sigma_t(\vec{r})}{\Sigma_\mathrm{maj}}$
+  \State \textbf{Sample} random number $\xi \in [0,1)$
+  \If{$\xi < P_\mathrm{real}$} \Comment{Collision is real}
+  \State \textbf{Execute} real collision
+    \Else \Comment{Collision is virtual}
+    \State \textbf{Execute} virtual collision
+  \EndIf
+\end{algorithmic}
+\end{algorithm}
+\includegraphics[scale=0.5]{images/dt}
+  \caption{Delta-tracking algorithm and flow chart.}
+  \label{fig:dt}
+\end{figure}
 
 Now, the path length can be sampled across multiple material regions
 of varying $\Sigma_t$ without explicitly stopping the neutron at a
