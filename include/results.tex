@@ -24,16 +24,29 @@ variance $\sigma^2(\hat{x})$. We are interested in reducing the
 variance of the final value which will provide more confidence in the
 simulation results. In general, running the simulation more times will
 reduce this variance at the cost of requiring more computation
-time. Therefore, when we seek to improve the quality of the
-statistics, as with \gls{wdt}, we are seeking improved variance in
-less time. To measure this, we must establish a \gls{fom}.
+time. The variance is proportional to the number of cycles $n$:
+\begin{equation}
+\label{eq:variance}
+  \sigma^2(\hat{x}) = \frac{C}{n}
+\end{equation}
+Therefore, when we seek to improve the quality of the
+statistics, as with \gls{wdt}, we are seeking improved variance with
+less cycles. To measure this, we must establish a \gls{fom}.
 The standard \gls{fom} used by most simulations, described by Lewis
 and Miller~\cite{lewis1993}, is shown in Eq.~\eqref{eq:fom}:
 \begin{equation}
   \label{eq:fom}
   \mathrm{FOM} = \frac{1}{\sigma(\hat{x})^2T}
 \end{equation}
-where $T$ is the runtime of the simulation. A higher \gls{fom}
+where $T$ is the runtime of the simulation, $T = Cn$. The runtime is
+proportional to the number of cycles $n$, plugging in
+Eq.~\eqref{eq:variance}:
+\begin{equation*}
+  \mathrm{FOM} = \frac{1}{\sigma(\hat{x})^2T}} = \frac{C\cdot n}{n} = C
+\end{equation*}
+
+
+ A higher \gls{fom}
 indicates higher accuracy per computation time, and therefore a more
 efficient algorithm. Serpent 2 collects scores for each cycle (or
 batch of cycles) and outputs the sample mean and standard
