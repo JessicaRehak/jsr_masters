@@ -5,13 +5,15 @@
 %\usepackage{style/my_format}
 \usepackage{style/commands}
 \usepackage{style/matlab}
+\usepackage[textsize=tiny]{todonotes}
 \def\wdt{\gls{wdt}}
 
 
 \input{include/glossary/gls}
 
 \begin{document}
-
+\listoftodos
+\newpage
 \title{Weighted Delta-Tracking with Scattering implemented in the
   Serpent 2 Monte Carlo Code}
 \author{J.S. Rehak}
@@ -35,7 +37,7 @@
 %\include{include/intro}
 %\include{background}
 \include{include/method}
-%\include{results}
+\include{include/results}
 %\include{conclusion}
 
 \printglossary[type=\acronymtype,title=Abreviations,nonumberlist]
