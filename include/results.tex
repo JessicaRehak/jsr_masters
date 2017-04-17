@@ -82,14 +82,38 @@ inverting to calculate \gls{fom}.
   \centering
   \includegraphics[scale=0.5]{images/fom_convergence_example}
   \caption[Figure of merit in $\phi_{\infty}$ for the fast-neutron group as a
-    function of Serpent 2 cycle.]{Figure of merti in $\phi_{\infty}$ for the fast-neutron group as a
+    function of Serpent 2 cycle.]{Figure of merit in $\phi_{\infty}$ for the fast-neutron group as a
     function of Serpent 2 cycle, with \gls{wdt} threshold of 0.2.}
   \label{fig:fom_convergence}
 \end{figure}
 
-%% Convergence explanation
+\subsection{Analysis Technique}
+\label{sec:analysis}
+
+Serpent 2 generates a single output file as the simulation runs. The
+parameters of interest are overwritten as their mean value and
+standard deviation are updated. This is sufficient to calculate the
+final value of the \gls{fom} which gives an indication of the quality
+of the simulation. In addition to this, figures such as those shown in
+Sec.~\ref{sec:fom} are useful to verify that the \gls{fom} has in fact
+converged, and that the variance is reducing as expecting. Therefore,
+in addition to changing the Serpent 2 source code to include the
+\gls{wdt} method, it was modified to generate uniquely named output
+files at the end of each batch. Processing these files enables us to
+generate to above graphs.
+
+As seen in Fig.~\ref{fig:fom_convergence}, the final \gls{fom} is not
+a single value, but may oscillate for a large number of
+cycles. Therefore, we calculated an average \gls{fom} value for each
+run, to allow comparison of runs without requiring a visual inspection
+of each graph.
 
 % Test Cases
+
+\section{Test Cases}
+\label{sec:test_cases}
+
+Three test cases were used 
 
 %% PWR
 %% Fast Pincell
