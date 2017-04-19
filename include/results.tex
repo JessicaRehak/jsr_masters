@@ -108,18 +108,100 @@ cycles. Therefore, we calculated an average \gls{fom} value for each
 run, to allow comparison of runs without requiring a visual inspection
 of each graph.
 
-% Test Cases
-
 \section{Test Cases}
 \label{sec:test_cases}
 
-Three test cases were used 
+Three test cases were selected to test the \gls{fom} values for the
+\gls{wdt} method. These are a \gls{pwr} pin cell, a fast reactor pin
+cell, and a homogenous fuel element based on the composition of the
+\gls{treat} fuel elements at the \gls{inl}. All test cases were run on
+the Abacus server at UC Berkeley, the specifications of the server are
+shown in Tab.~\ref{tab:abacus}.\todo{Add table of abacus specs}
 
-%% PWR
-%% Fast Pincell
-%% Homog Element
+\begin{table}[hbtp]
+  \centering
+  \begin{tabular}{cr}
+    \toprule
+    \textrm{Parameter} & \textrm{Specification} \\ \midrule
+    Place & Holder
+          \\ \bottomrule
+  \end{tabular}
+  \caption{Abacus server specifications}
+  \label{tab:abacus}
+\end{table}
 
-%% -- Images
+\subsection{\Acrlong{pwr} pin cell}
+\label{sec:pwr}
+The \gls{pwr} pin cell was chosen from the Serpent 2 validation input
+files provided on the \gls{vtt} Serpent
+webpage~\cite{serpent_web}. The geometry and physical parameters are
+shown in Fig.~\ref{fig:pwr}. The fuel is a 2.68 w/o enriched UO$_2$
+mixture, with Zircalloy cladding, light water moderation, and
+reflective boundary conditions. We ran the simulation with two energy
+groups with the group boundary at 0.625 eV.
+\begin{figure}[hbtp]
+  \centering
+  \begin{tabular}{cc}
+  \includegraphics[scale=0.5]{images/results/pwr_geom1} \\
+\begin{tabular}{@{}lr@{}}
+\toprule
+\textbf{Parameter}     & \textbf{Value (cm)} \\ \midrule
+Fuel radius     & 0.412          \\
+Cladding radius & 0.475          \\
+Pitch              & 1.33          \\ \bottomrule
+\end{tabular}
+  \end{tabular}
+  \caption[Pressurized water reactor geometry and physical
+  parameters.]{Pressurized water reactor geometry and physical
+    parameters. The fuel is shown in light blue, the cladding in
+    purple and the coolant is green.}
+  \label{fig:pwr}
+\end{figure}
+
+\subsection{Fast reactor pin cell}
+\label{sec:fast_pin_cell}
+
+We adapted the fast reactor pin cell from another example provided in
+the Serpent validation files~\cite{serpent_web}. This is a lead cooled
+pin cell with \gls{mox} fuel containing Uranium, Plutonium and a small
+amount of Americium. The cladding is stainless steel. The lattice is
+hexagonal, and has reflective boundary conditions. As with the
+\gls{pwr} pin cell, we ran the simulation with two energy
+groups with the group boundary at 0.625 eV.
+
+\begin{figure}[hbtp]
+  \centering
+  \begin{tabular}{cc}
+  \includegraphics[scale=0.5]{images/results/fast_pin_geom1} \\
+\begin{tabular}{@{}lr@{}}
+\toprule
+\textbf{Parameter}     & \textbf{Value (cm)} \\ \midrule
+Void radius     & 0.1          \\
+Pellet radius & 0.45          \\
+Inner cladding radius & 0.465          \\
+Outer cladding radius & 0.525          \\
+Pitch              & 1.789          \\ \bottomrule
+\end{tabular}
+  \end{tabular}
+  \caption[Fast pin cell geometry and physical parameters.]{Fast pin
+    cell geometry and physical parameters. The pellet is shown in
+    blue, the cladding green, and the coolant orange. Black regions
+    are voids.}
+  \label{fig:fast}
+\end{figure}
+
+\subsection{Homogenous fuel element}
+\label{sec:homog}
+
+The third test case is derived from the \gls{treat} reactor at
+\gls{inl}. Work at \gls{inl} focuses on using deterministic solvers to
+model the core, the Serpent 2 Monte Carlo code is used to generate the
+cross-sections for these solvers. We used a homogenized fuel element
+that replicates the material but not geometry of the \gls{treat}
+fuel. The simulation uses eleven energy groups, which replicates the
+groups used by the deterministic solvers.
+
+
 
 % Actual Results
 
