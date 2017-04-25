@@ -2,7 +2,8 @@
 \label{chap:method}
 
 % Introduction
-The Serpent 2 Monte Carlo code uses a combination of ray tracing and
+The Serpent 2 Monte Carlo code uses a combination of \todo{maybe
+  replace with ``algorithms''} ray tracing and
 delta-tracking to simulate the propagation of particles. The \gls{wdt}
 method modifies delta-tracking for an absorbing medium, replacing virtual
 collisions with a weight reduction. In this section, we will describe
@@ -41,12 +42,12 @@ probability characterized by the material's experimentally determined
 total-cross section, a function of position and the incident neutron
 energy, $\Sigma_t(\mathbf{r}, E)$. The probability of an interaction
 occurring in a differential distance traveled $ds$ is related to the
-cross-section:
+\todo{macroscopic?} cross-section:
 \begin{equation}
   \label{eq:macroscopic}
   \frac{dP}{ds} = \Sigma_t(\mathbf{r}, E)
 \end{equation}
-We assume that each collision will remove the neutron from the
+We assume that each interaction will remove the neutron from the
 incident flux, as it is absorbed or deflected out of the original path
 in either position, energy, or both.  The medium therefore attenuates
 an incident mono-energetic neutron flux $\phi_0$ as a function of
@@ -90,7 +91,7 @@ is the \gls{cdf}:
 \end{equation}
 As expected, increasing $s$ causes the probability of any interaction,
 $F(s)$, to approach unity. A plot illustrating the behavior of the
-\gls{pdf} and \gls{cdf} are shown in Fig.~\ref{fig:cdf_pdf}.
+\gls{pdf} and \gls{cdf} are shown in Fig.~\ref{fig:cdf_pdf}. \todo{Add (a) and (b) or titles to this graph}
 \begin{figure}[hbt]
   \centering
   \includegraphics[scale=0.75]{images/cdf_pdf}
@@ -122,7 +123,7 @@ is resampled if appropriate. This can become computationally expensive
 in complicated geometries and when the probability of crossing
 boundaries with each sample path length is high.
 
-\subsection{Woodcock Delta-tracking}
+\section{Woodcock Delta-tracking}
 \label{sec:delta-tracking}
 
 As discussed in Section~\ref{sec:ray_tracing}, the value of $\Sigma_t$
@@ -142,7 +143,7 @@ cross-sections in the region of interest.
   \label{eq:majorant}
   \Sigma_\mathrm{maj} \equiv \max_{\mathbf{r} \in \mathbb{V}}\{\Sigma_t(\mathbf{r})\}
 \end{equation}
-Where $\mathbb{V}$ is the volume of interest, ash shown in a
+Where $\mathbb{V}$ is the volume of interest, as shown in a
 one-dimensional region in Fig.~\ref{fig:sigma_maj}.
 \begin{figure}[hbt]
   \centering
@@ -158,7 +159,8 @@ cross-section can also be represented as the summation of the total
 cross-section and a delta cross-section:
 \begin{equation}
   \label{eq:majorant2}
-  \Sigma_\mathrm{maj} = \Sigma_\delta(\mathbf{r}) + \Sigma_t(\mathbf{r})
+  \Sigma_\mathrm{maj} = \Sigma_\delta(\mathbf{r}) +
+  \Sigma_t(\mathbf{r}), \quad\forall \vec{r} \in \mathbb{V}
 \end{equation}
 Following from the definition of $\Sigma_\mathrm{maj}$ in
 Eq.~\eqref{eq:majorant}, the function $\Sigma_\delta(\mathbf{r})$ is
@@ -179,7 +181,7 @@ $s$ in the region of interest using the majorant cross-section is given by:
 
 In most of the region of interest, the majorant cross-section is not
 the real cross-section. We must use a technique called rejection
-sampling to simulate sampling the real $\Sigma_t(\vec{r})$ while
+sampling\todo{what is sampling} to simulate sampling the real $\Sigma_t(\vec{r})$ while
 actually sampling using $\Sigma_\mathrm{maj}$. 
 
 \subsubsection{Rejection Sampling}
@@ -189,12 +191,12 @@ Koblinger~\cite{lux1991}, rejection sampling requires a \gls{pdf} of
 interest, $f(x)$, and a second \gls{pdf} $g(x)$ for which:
 \begin{equation}
   \label{eq:Mleq}
-  f(x) \leq Mg(x), \forall x
-\end{equation}
-Sampling from $Mg(x)$ and accepting these samples with probability:
+  f(x) \leq M\cdot g(x), \forall x
+\end{equation} where $M \in \mathbb{R}$ is a constant.
+Sampling from $M\cdot g(x)$ and accepting these samples with probability:
 \begin{equation}
   \label{eq:preal}
-  P = \frac{f(x)}{Mg(x)}
+  P = \frac{f(x)}{M\cdot g(x)}
 \end{equation}
 replicates sampling directly from $f(x)$. 
 
@@ -434,14 +436,14 @@ ratios of the cross-sections:
   p_{\mathrm{scattering}} = \frac{\Sigma_{s}}{\Sigma_t}
 \end{align*}
 Where $\Sigma_{a}$ and $\Sigma_{s}$ are the macroscopic cross-sections
-for capture and scattering, respectively.
+for capture \todo{make capture/absorption consistent} and scattering, respectively.
 
 In the coin example, each had a different monetary value, giving us an
 expected value when we drew many times. We must introduce something
 similar for neutrons. It is convention to call this intrinsic value
 ``weight'' and represents the importance of the neutron. All neutrons
 are born with the same weight, usually unity, and are killed when they
-have zero weight. By that convention an capture event that kills a
+have zero weight. By that convention a capture event that kills a
 neutron immediately forces the final weight of the neutron to zero,
 $w_{f,\mathrm{capture}} = 0$. We can then calculate the expected
 value of the interaction of a neutron with initial weight $w_i$:

@@ -745,10 +745,13 @@ cell for infinite total cross-section ($\Sigma_{t,
   \infty}$) is shown in Tab.~\ref{tab:fast_inf_tot} and shown
 graphically in Fig.~\ref{fig:fast_inf_tot}. The \gls{fom} ratio for
 group 1 is higher for all values of $t_{\mathrm{wdt}}$ with the
-exception of 0.2. For group 2, as seen in Sec.~\ref{fast_inf_flx}, the
+exception of 0.2. For group 2, as seen in Sec.~\ref{sec:fast_inf_flx}, the
 \gls{fom} values are very low, and one ratio is artificially inflated
 when $t_{\mathrm{wdt}} = 0.6$
-due to the lack of convergence. This case is shown in Fig.~\ref{fast_inf_tot_example}.
+due to the lack of convergence. This case is shown in
+Fig.~\ref{fig:fast_inf_tot_example}; there are not enough statistics
+for the low energy group to cause the \gls{fom} to converge to a high
+enough value to be significant.
 \begin{table}[hbtp]
   \centering
   \caption[$\overline{\mathrm{FOM}}$ and ratio for
@@ -786,6 +789,82 @@ due to the lack of convergence. This case is shown in Fig.~\ref{fast_inf_tot_exa
     $\Sigma_{t,\infty}$ the base and $t_{\mathrm{wdt}} = 0.6$ case.}
   \label{fig:fast_inf_tot_example}
 \end{figure}
+
+\subsection{Scattering Matrices}
+\label{sec:fast_inf_sp0}
+
+For the two-group case, the scattering matrices for the zeroth
+moments $S_0$ is $2 \times 2$. A summary of the \gls{fom} ratio
+for the zeroth moment $S_0$ is shown in Table~\ref{tab:fast_inf_sp0}. The
+tables are for the entry in row $g$ and column $g'$, which represents
+scattering from group $g'$ into group $g$, indicated as $g' \to g$.
+
+The group 1 inscattering matrix displays good statistics, the other
+three entries have an extremely low \gls{fom}, indicating that there
+are not enough statistics. The group 1 inscattering \gls{fom} ratio is
+plotted in Fig.~\ref{fig:fast_inf_sp0}. \gls{wdt} returns a higher
+\gls{fom} for all values of $t_{\mathrm{wdt}} \geq 0.3$, and close to
+parity for $t_{\mathrm{wdt}} = 0.2$.
+
+\begin{table}[hbtp]
+  \centering
+  \caption[$\overline{\mathrm{FOM}}$ and ratio for
+  the fast reactor pin cell infinite $S_0$ scattering matrix.]{$\overline{\mathrm{FOM}}$ as a function of
+    $t_{\mathrm{wdt}}$ and the ratio of values to the base case for
+    the fast reactor pin cell infinite $S_0$ scattering matrix}
+  \begin{tabular}{cc} $\Sigma_{1\to 1}$ & $\Sigma_{2 \to 1}$ \\
+\input{include/tables/fast_inf_sp0_grp_1} & 
+\input{include/tables/fast_inf_sp0_grp_2} \\
+$\Sigma_{1\to 2}$ & $\Sigma_{2 \to 2}$ \\
+\input{include/tables/fast_inf_sp0_grp_3} & 
+\input{include/tables/fast_inf_sp0_grp_4} 
+  \end{tabular}
+  \label{tab:fast_inf_sp0}
+\end{table}
+\begin{figure}[hbtp]
+  \centering
+  \includegraphics[scale=0.9]{images/results/fast_inf_sp0_grp_1}
+  \caption[Figure of merit ratio $\Sigma_{1 \to 1}$ for the fast reactor pin cell]{Figure of
+    merit ratio of $\Sigma_{1 \to 1}$ for
+    the fast reactor pin cell. The group boundary is at $0.0625$ eV. \gls{fom} is calculated
+    using the last 20 data points.}
+  \label{fig:fast_inf_sp0}
+\end{figure}
+
+\newpage
+
+\subsection{Discussion}
+\label{sec:fast_discussion}
+
+There is very little thermal flux in a fast reactor. This results in
+poor statistics for that group, a fact that \gls{wdt} does not
+remedy. As evidenced by the results presenting in this section, all
+values of $t_{\mathrm{wdt}}$ continued to result in group 2 \gls{fom} orders
+of magnitude smaller than both group 1 for this problem, and either
+group for the \gls{pwr}.
+
+For the fast group, there is consistent improvement in the \gls{fom}
+for all values of $t_{\mathrm{wdt}}$. The \gls{fom} ratio peaks at
+$t_{\mathrm{wdt}} = 0.6$ for the infinite flux, total cross-section
+and group 1 inscattering cross-section. This value represents the
+highest improvement in group 1, and the values are summarized in
+Tab.~\ref{tab:fast_discussion}. The values for group 2 are omitted as
+this value, like all others, did not result in meaningful improvement.
+
+\begin{table}[hbtp]
+  \centering
+  \caption{Summary of \acrshort{fom} ratios for the fast reactor pin
+  cell for $t_{\mathrm{wdt}}$ = 0.6.}
+  \begin{tabular}{lr}\toprule
+    \textbf{Parameter}& $\overline{\mathbf{FOM}}$ \textbf{Ratio} \\ \midrule
+    $\phi_{1, \infty}$ & 1.360716 \\
+    $\Sigma_{1,t}$ & 1.216532 \\
+    $\Sigma_{1 \to 1}$ & 1.341268 \\ \bottomrule
+  \end{tabular}
+  \label{tab:fast_discussion}
+\end{table}
+
+
 \newpage
 \section{Homogenous fuel element}
 \label{sec:homog}
@@ -796,7 +875,103 @@ model the core, the Serpent 2 Monte Carlo code is used to generate the
 cross-sections for these solvers. We used a homogenized fuel element
 that replicates the material but not geometry of the \gls{treat}
 fuel. The simulation uses eleven energy groups, which replicates the
-groups used by the deterministic solvers.
+groups used by the deterministic solvers. This group structure is
+summarized in Table.~\ref{tab:homog_energy}.
+\begin{table}[hbtp]
+  \centering
+  \caption{Energy group structure for the homogenous fuel element.}
+  \begin{tabular}{cc}
+  \begin{tabular}{rr} \toprule
+    \textbf{Group}& \textbf{Upper energy limit (MeV)} \\ \midrule
+    1 & 20.0000  \\
+    2 & 3.32870  \\
+    3 & 1.15620 $\times 10^{-1}$ \\
+    4 & 3.48110 $\times 10^{-3}$ \\
+    5 & 1.32700 $\times 10^{-4}$ \\
+    6 & 8.10003 $\times 10^{-6}$ \\ \bottomrule
+  \end{tabular} &
+  \begin{tabular}{rr} \toprule
+    \textbf{Group}& \textbf{Upper energy limit (MeV)} \\ \midrule
+    7 & 6.25000 $\times 10^{-7}$ \\
+    8 & 2.09610 $\times 10^{-7}$ \\
+    9 & 7.64970 $\times 10^{-8}$ \\
+    10 & 4.73020 $\times 10^{-8}$ \\
+    11 & 2.00100 $\times 10^{-8}$ \\ \\\bottomrule
+  \end{tabular}
+  \end{tabular}
+  \label{tab:homog_energy}
+\end{table}
+To simplify the analysis, and to allow comparison between the other
+two test cases, these groups can be collapsed. The values we are
+considering, $\phi_{\infty}$, $\Sigma_{t,\infty}$, and the zeroth
+scattering matrix are all independent measurements with regard to
+energy. We can sum all the $\phi_{\infty}$ for each energy group to
+get a total $\phi_{\infty}$ for the entire energy range. As there is
+no covariance, the variance of the sum will be the sum of the
+variance. \todo{citation needed} The variance for summing energy groups $g$ to $g'$ is therefore:
+\begin{equation*}
+  \mathrm{Var}\left( \sum_{j=g}^{g'}\phi_{g,\infty}\right) =   \sum_{j=g}^{g'}\mathrm{Var}\left(\phi_{g,\infty}\right)
+\end{equation*}
+This allows us to collapse groups one through six into a single group,
+hereafter denoted by an $f$ for fast and groups seven through eleven as
+ a slow group, $s$. The boundary of group seven aligns with the separation
+of the two groups in the previous test problems, so we can compare the
+results in a more natural
+fashion. Fig.~\ref{fig:homog_fom_convergence_example} shows the
+\gls{fom} convergence for the combined fast group. As expected, the
+combined group shows the same convergence characteristic as the single
+groups.
+
+\begin{figure}[hbtp]
+  \centering
+  \includegraphics[scale=0.5]{images/homog_fom_convergence_example}
+  \caption{Convergence of $\phi_{\infty}$ for the combined fast group
+    for the homogenous fuel element for the base case
+    $t_{\mathrm{wdt}} = 0.1$.}
+  \label{fig:homog_fom_convergence_example}
+\end{figure}
+
+\subsection{Infinite flux}
+\label{sec:homog_inf_flx}
+
+A summary of the \gls{fom} ratio,
+$\overline{\mathrm{FOM}}(t_{\mathrm{wdt}})$, for the homogenous fuel
+element for infinite flux ($\phi_{\infty}$) is shown in
+Tab.~\ref{tab:homog_inf_flx} and shown graphically in
+Fig.~\ref{fig:homog_inf_flx}. The Tables for all eleven of the
+original energy groups is included in
+App.~\ref{sec:homog_inf_flx_data}.
+
+\begin{table}[hbtp]
+  \centering
+  \caption[$\overline{\mathrm{FOM}}$ and ratio for
+    the homogenous fuel element infinite flux.]{$\overline{\mathrm{FOM}}$ as a function of
+    $t_{\mathrm{wdt}}$ and the ratio of values to the base case for
+    the homogenous fuel element infinite flux.}
+  \begin{tabular}{cc} Fast Group ($E > 0.0625$) & Slow Group \\
+    \input{include/tables/homog_inf_flx_grp_comb_1}
+ &
+   \input{include/tables/homog_inf_flx_grp_comb_2}
+  \end{tabular}
+\label{tab:homog_inf_flx}
+\end{table}
+\begin{figure}[hbtp]
+  \centering
+  \begin{tabular}{c}
+  \includegraphics[scale=0.9]{images/results/homog_inf_flx_grp_comb1} \\
+    (a) \\
+  \includegraphics[scale=0.9]{images/results/homog_inf_flx_grp_comb2} \\
+    (b) 
+  \end{tabular}
+  \caption[Figure of merit ratio of the infinite flux for the
+  homogeneous fuel element]{Figure of merit ratio of the infinite flux
+    for the homogeneous fuel element vs the
+    \gls{wdt} threshold for the (a) fast and (b) slow 
+    groups. The group boundary is at $0.0625$ eV. \gls{fom} is
+    calculated using the last 20 data points.}
+  \label{fig:fast_inf_flx}
+\end{figure}
+
 
 %% Infinite flux
 
