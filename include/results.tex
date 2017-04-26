@@ -939,8 +939,16 @@ $\overline{\mathrm{FOM}}(t_{\mathrm{wdt}})$, for the homogenous fuel
 element for infinite flux ($\phi_{\infty}$) is shown in
 Tab.~\ref{tab:homog_inf_flx} and shown graphically in
 Fig.~\ref{fig:homog_inf_flx}. The Tables for all eleven of the
-original energy groups is included in
+original energy groups are included in
 App.~\ref{sec:homog_inf_flx_data}.
+
+As shown in both the table and graphically, we observe an improvement
+in \gls{fom} for \gls{wdt} threshold values
+$0.2 \leq t_{\mathrm{wdt}} \leq 0.6$ and $t_{\mathrm{wdt}} = 0.8, 1.0$ for
+the fast group. The improvement is moderate for this
+group, with a maximum improvement of 1.07 times the base case. The
+improvements are even slighter for the slow group, where we observe a
+maximum of 1.014 times the base case for $0.4 \leq t_{\mathrm{wdt}} 0.6$ and $t_{\mathrm{wdt}} = 1.0$.
 
 \begin{table}[hbtp]
   \centering
@@ -949,9 +957,9 @@ App.~\ref{sec:homog_inf_flx_data}.
     $t_{\mathrm{wdt}}$ and the ratio of values to the base case for
     the homogenous fuel element infinite flux.}
   \begin{tabular}{cc} Fast Group ($E > 0.0625$) & Slow Group \\
-    \input{include/tables/homog_inf_flx_grp_comb_1}
+    \input{include/tables/homog_inf_flx_grp_comb1}
  &
-   \input{include/tables/homog_inf_flx_grp_comb_2}
+   \input{include/tables/homog_inf_flx_grp_comb2}
   \end{tabular}
 \label{tab:homog_inf_flx}
 \end{table}
@@ -969,15 +977,79 @@ App.~\ref{sec:homog_inf_flx_data}.
     \gls{wdt} threshold for the (a) fast and (b) slow 
     groups. The group boundary is at $0.0625$ eV. \gls{fom} is
     calculated using the last 20 data points.}
-  \label{fig:fast_inf_flx}
+  \label{fig:homog_inf_flx}
 \end{figure}
 
+\subsection{Infinite total cross-section}
+\label{sec:homog_inf_total}
 
-%% Infinite flux
+A summary of the \gls{fom} ratio,
+$\overline{\mathrm{FOM}}(t_{\mathrm{wdt}})$, for the homogeneous fuel element
+ infinite total cross-section is shown in Tab.~\ref{tab:homog_inf_tot} and shown
+graphically in Fig.~\ref{fig:homog_inf_tot}. The full data for all
+eleven groups is included in App.~\ref{sec:homog_inf_tot_data}.
 
-%% Cross-sections
+For both groups, the \gls{wdt} method underperforms the base case in
+all but a few select cases. Where it performs better, we observe a very
+moderate improvement in \gls{fom}, with the only shared improvement in
+both groups at $t_{\mathrm{wdt}} = 0.7$.
 
-%% Scattering matrices
+\begin{table}[hbtp]
+  \centering
+  \caption[$\overline{\mathrm{FOM}}$ and ratio for
+    the homogeneous fuel element $\Sigma_{t,\infty}$.]{$\overline{\mathrm{FOM}}$ as a function of
+    $t_{\mathrm{wdt}}$ and the ratio of values to the base case for
+    the homogeneous fuel element $\Sigma_{t,\infty}$.}
+  \begin{tabular}{cc} Fast group ($E > 0.0625$) & Slow group \\
+    \input{include/tables/homog_inf_tot_grp_comb1}
+ &
+   \input{include/tables/homog_inf_tot_grp_comb2}
+  \end{tabular}
+\label{tab:homog_inf_tot}
+\end{table}
+\begin{figure}[hbtp]
+  \centering
+  \begin{tabular}{c}
+  \includegraphics[scale=0.9]{images/results/homog_inf_tot_grp_comb1} \\
+    (a) \\
+  \includegraphics[scale=0.9]{images/results/homog_inf_tot_grp_comb2} \\
+    (b) 
+  \end{tabular}
+  \caption[Figure of merit ratio of the $\Sigma_{t,\infty}$ for the
+  homogeneous fuel element]{Figure of merit ratio of
+    $\Sigma_{t,\infty}$ for the homogeneous fuel element vs the \gls{wdt}
+    threshold for (a) fast group and (b) slow group. The group
+    boundary is at $0.0625$ eV. \gls{fom} is calculated using the last
+    20 data points.}
+  \label{fig:homog_inf_tot}
+\end{figure}
+
+\subsection{Scattering Matrices}
+\label{sec:homog_inf_sp0}
+
+For the eleven-group case, the scattering matrices for the zeroth
+moments $S_0$ is $11 \times 11$. The matrix entries are collapsed in
+the same way as described above to calculate the \gls{fom}. A summary
+of the \gls{fom} ratio for the zeroth moment $S_0$ is shown in
+Table~\ref{tab:homog_inf_sp0}. The tables are for the entry in row $g$
+and column $g'$, which represents scattering from group $g'$ into
+group $g$, indicated as $g' \to g$.
+
+\begin{table}[hbtp]
+  \centering
+  \caption[$\overline{\mathrm{FOM}}$ and ratio for
+  the homogeneous fuel element infinite $S_0$ scattering matrix.]{$\overline{\mathrm{FOM}}$ as a function of
+    $t_{\mathrm{wdt}}$ and the ratio of values to the base case for
+    the homogeneous fuel element infinite $S_0$ scattering matrix}
+  \begin{tabular}{cc} $\Sigma_{f\to f}$ & $\Sigma_{s \to f}$ \\
+\input{include/tables/homog_inf_sp0_grp_comb1} & 
+\input{include/tables/homog_inf_sp0_grp_comb2} \\
+$\Sigma_{f\to s}$ & $\Sigma_{s \to s}$ \\
+\input{include/tables/homog_inf_sp0_grp_comb3} & 
+\input{include/tables/homog_inf_sp0_grp_comb4} 
+  \end{tabular}
+  \label{tab:homog_inf_sp0}
+\end{table}
 
 %%% Local Variables:
 %%% mode: latex
