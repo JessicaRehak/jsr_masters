@@ -222,6 +222,8 @@ accept our value of $x$ using the probability defined in Eq.~\eqref{eq:preal}:
 \begin{equation*}
   \xi_2 \leq \frac{f(x)}{g(x)} = x^2
 \end{equation*}
+
+\begin{minipage}{1.0\linewidth}
 Following this algorithm using the simple Matlab script:
 \begin{lstlisting}
 a = [];                     % Accepted samples
@@ -233,6 +235,8 @@ for i = 1:1000
     end
 end
 \end{lstlisting}
+\end{minipage}
+
 Generates the histogram shown in Fig.~\ref{fig:pdf_histogram}. As
 expected, the procedure has reproduced the desired \gls{pdf} of $f(x)
 = x^2$. Although this requires sampling two random variables, it can be
@@ -396,8 +400,10 @@ describe the expected value of the drawn coin:
   &= (0.25 \times 0.75) + (0.10 \times 0.25) \\
   &= 0.2125
 \end{align*}
-This value represents the average value of a coin drawn, if we perform
-many draws. The following Matlab code replicates this procedure:
+\begin{minipage}{1.0\linewidth}
+  This value represents the average value of a coin drawn, if we
+  perform many draws. The following Matlab code replicates this
+  procedure:
 \begin{lstlisting}
 v = 0;
 n = 1000;
@@ -406,6 +412,8 @@ for i = 1:n
     v = v + (xi < 0.25)*0.1 + (xi >= 0.25)*0.25;
 end
 \end{lstlisting}
+\end{minipage}
+
 Although the exact values will vary due to the small sample size, \verb|v/n|
 $\approx 0.2125$, as we expected.
 

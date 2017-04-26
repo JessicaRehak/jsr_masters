@@ -1028,28 +1028,72 @@ both groups at $t_{\mathrm{wdt}} = 0.7$.
 \label{sec:homog_inf_sp0}
 
 For the eleven-group case, the scattering matrices for the zeroth
-moments $S_0$ is $11 \times 11$. The matrix entries are collapsed in
-the same way as described above to calculate the \gls{fom}. A summary
-of the \gls{fom} ratio for the zeroth moment $S_0$ is shown in
-Table~\ref{tab:homog_inf_sp0}. The tables are for the entry in row $g$
+moments $S_0$ is $11 \times 11$. All the tables showing the \gls{fom}
+ratios for each value of the \gls{wdt} threshold are shown in
+App.~\ref{sec:homog_inf_sp0_raw}. The tables are for the entry in row $g$
 and column $g'$, which represents scattering from group $g'$ into
-group $g$, indicated as $g' \to g$.
+group $g$, indicated as $g' \to g$. Collapsing the groups for
+comparison can not be done in this case, as the \gls{fom} is so low in
+many of the matrix entries that it dominates the value of the
+\gls{fom}. Instead, we have created matrix maps that show the
+\gls{fom} ratios when \gls{wdt} is used. These maps are included in
+App.~\ref{sec:homog_inf_sp0_mat}. 
 
-\begin{table}[hbtp]
+A characteristic map is shown in Fig.~\ref{fig:homog_inf_sp0_map}, for
+$t_{\mathrm{wdt}} = 0.2$. The trend we observe in these images is a
+slight deviation from unity in most entries, indicating a moderate
+improvement or reduction in the \gls{fom}. In only three cases did the
+use of \gls{wdt} populate an entry in the matrix where the base case
+did not. In each of these cases, the \gls{fom} remains very low, on
+the order of $10^{-4}$. There is some improvement in the scattering
+entries for group five into higher energy groups,
+$\Sigma_{5 \to 1}, \Sigma_{5 \to 2},$ and $\Sigma_{5 \to 1}$. This
+improvement is higher in lower values of $t_{\mathrm{wdt}}$.
+\begin{figure}[hbtp]
   \centering
-  \caption[$\overline{\mathrm{FOM}}$ and ratio for
-  the homogeneous fuel element infinite $S_0$ scattering matrix.]{$\overline{\mathrm{FOM}}$ as a function of
-    $t_{\mathrm{wdt}}$ and the ratio of values to the base case for
-    the homogeneous fuel element infinite $S_0$ scattering matrix}
-  \begin{tabular}{cc} $\Sigma_{f\to f}$ & $\Sigma_{s \to f}$ \\
-\input{include/tables/homog_inf_sp0_grp_comb1} & 
-\input{include/tables/homog_inf_sp0_grp_comb2} \\
-$\Sigma_{f\to s}$ & $\Sigma_{s \to s}$ \\
-\input{include/tables/homog_inf_sp0_grp_comb3} & 
-\input{include/tables/homog_inf_sp0_grp_comb4} 
-  \end{tabular}
-  \label{tab:homog_inf_sp0}
-\end{table}
+    \includegraphics[scale=0.75]{images/results/matshows/homog_sp0_matshow_1}
+  \caption{Matrix image for the zeroth scattering moment for the
+    homogeneous fuel element for $t_{\mathrm{wdt}} = 0.2$.}
+  \label{fig:homog_inf_sp0_map}
+\end{figure}
+\newpage
+\subsection{Discussion}
+\label{sec:homog_discussion}
+
+There is no clear \gls{wdt} threshold value that creates an overall
+improvement in the parameters we studied. The results of the infinite
+flux show an improvement in most cases for the fast flux, and a
+moderate improvement for slow flux for $0.4 \leq t_{\mathrm{wdt}} \leq
+0.6$ and unity. For the infinite total cross-section, improvement in
+the slow group only occurs for two values, $t_{\mathrm{wdt}} = 0.7,
+1.0$. We also observe improvement in the fast group total
+cross-section for $t_{\mathrm{wdt}} = 0.7$. The scattering matrices
+show similar patterns for all values of the \gls{wdt} threshold. The
+original use of the homogeneous fuel element by \gls{inl} is for the
+development of cross-sections. Based on this intent, a threshold value
+of $t_{\mathrm{wdt}} = 0.7$ will return improvements in both total
+cross-section and the zeroth order scattering matrix, and near parity
+with the \gls{fom} of the base case for flux. The ratios for this
+parameter are summarized in Fig.~\ref{fig:homog_summary}.
+
+\begin{figure}[hbtp]
+  \centering
+  \begin{tabular}{c} $t_{\mathrm{wdt}}=0.7$\\
+  \begin{tabular}{lr}\toprule
+    \textbf{Parameter}& $\overline{\mathbf{FOM}}$ \textbf{Ratio} \\ \midrule
+    $\phi_{f, \infty}$ & 0.990465\\
+    $\phi_{s, \infty}$ & 0.988462 \\
+    $\Sigma_{f,t}$ & 1.010220 \\
+    $\Sigma_{s,t}$ & 1.052628 \\
+    \bottomrule
+  \end{tabular}\\
+    \includegraphics[scale=0.75]{images/results/matshows/homog_sp0_matshow_6}
+\end{tabular}
+  \caption{Summary of the data for the homogeneous fuel element for $t_{\mathrm{wdt}} = 0.7$.}
+\label{fig:homog_summary}
+\end{figure}
+
+
 
 %%% Local Variables:
 %%% mode: latex
