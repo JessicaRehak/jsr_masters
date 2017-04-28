@@ -160,25 +160,32 @@ different values of the \gls{wdt} threshold for three test cases.
 
 \section{Parameters of Study}
 \label{sec:parameters}
-\todo{explain that we want to find a wdt threshold value}
 Each Serpent 2 simulation generates hundreds of output parameters that
 describe all processes that occur during particle propagation. Finding
 values where the \gls{wdt} method improves the \gls{fom} is a daunting
-task. To focus our search, we identified three initial quantities that
+task. To focus our search, we identified three  quantities that
 will be the focus of this research study. Further study into other
 parameters may reveal further benefit or issues with the \gls{wdt}
 method. The three parameters we selected are flux, 
 total cross-section, and the scattering matrices for the
-zeroth and first scattering moments. Each of the three test-cases have
+zeroth scattering moment. Each of the three test-cases have
 reflective boundary conditions, so we will examine the infinite values for these
-parameters.\todo{explanation of fast/slow group numbering}
+parameters.
 
 The neutron flux quantifies the total distance traveled by all
 neutrons in a volume per unit time. This is an important quantity, as
 it is representative of the neutron population. A low variance is
 desired in neutron flux, as it indicates that the uncertainty in the
 neutron population in each energy group is well
-understood.\todo{explanation of importance of other two values}
+understood.
+
+The total cross-section quantifies the total interaction probability
+for neutrons of that energy range. The zeroth scattering moment is a
+matrix that quantifies scattering between the energy groups in the
+problem, both upscattering and downscattering. A low variance is
+desired in these parameters, as the goal of implementing this method
+is to improve cross-section development for a highly scattering
+medium, \gls{treat}.
 
 A Serpent 2 simulation was run for each of the three test cases using
 values of the \gls{wdt} threshold ($t_\mathrm{wdt}$) from 0.1 to unity in increments of
@@ -192,7 +199,11 @@ $t_{\mathrm{wdt}}$ to the final average \gls{fom} with no \gls{wdt}:
 \end{equation*}
 Where $\overline{\mathrm{FOM}}_0 =
 \overline{\mathrm{FOM}}(0.1)$ is
-the average \gls{fom} with no \gls{wdt}.
+the average \gls{fom} with no \gls{wdt}. Increasing values of
+$t_{\mathrm{wdt}}$ leads to increasing amount of \gls{wdt} over
+regular delta-tracking. The parameters for the rouletting scheme are
+kept constant, with a weight cutoff of $w = 0.1$ and probability of
+rouletting $P_{\mathrm{kill}} = 0.5$.
 
 \subsection{Test Cases}
 \label{sec:test_cases}
@@ -219,7 +230,7 @@ shown in Tab.~\ref{tab:abacus}.
 \end{table}
 
 \section{\Acrlong{pwr} pin cell}
-\label{sec:pwr}\todo{replace instances of fast/slow with 1/2}
+\label{sec:pwr}
 The \gls{pwr} pin cell was chosen from the Serpent 2 validation input
 files provided on the \gls{vtt} Serpent
 webpage~\cite{serpent_web}. The geometry and physical parameters are
@@ -908,7 +919,7 @@ scattering matrix are all independent measurements with regard to
 energy. We can sum all the $\phi_{\infty}$ for each energy group to
 get a total $\phi_{\infty}$ for the entire energy range. As there is
 no covariance, the variance of the sum will be the sum of the
-variance. \todo{citation needed} The variance for summing energy groups $g$ to $g'$ is therefore:
+variance~\cite{taylor1997}. The variance for summing energy groups $g$ to $g'$ is therefore:
 \begin{equation*}
   \mathrm{Var}\left( \sum_{j=g}^{g'}\phi_{g,\infty}\right) =   \sum_{j=g}^{g'}\mathrm{Var}\left(\phi_{g,\infty}\right)
 \end{equation*}

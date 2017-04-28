@@ -65,7 +65,7 @@ Although the exact values will vary due to the small sample size, \verb|v/n|
 $\approx 0.2125$, as we expected.
 
 This framework is often applied to neutron propagation in a process
-called ``survival biasing.'' At each collision location, the type of
+called ``survival biasing'' \cite{lewis1993}. At each collision location, the type of
 interaction is sampled and the appropriate action taken. In the case
 of an capture event the neutron is ``killed,'' removed from the
 simulation. While this accurately reflects the physical reality, it
@@ -319,7 +319,7 @@ causing computational inefficiency. These two situations imply that
 there is a region between low and high values of $P_\mathrm{real}$
 where \gls{wdt} may provide benefit.
 
-A new input parameter line \verb|set wdt| is used to indicate that
+
 \gls{wdt} is to be used, and can also set the value of the \gls{wdt}
 threshold $t_{\mathrm{wdt}}$. This is the ratio below which \gls{wdt} will be used. This
 scheme is summarized in Fig.~\ref{fig:ray_wdt}.
