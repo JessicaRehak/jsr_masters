@@ -1,5 +1,53 @@
 
 \chapter{Introduction}
-\label{sec:intro}
+\label{chap:intro}
 
-This is the introduction!
+Nuclear energy continues to be an important source of carbon-free
+baseload power in countries around the world. Unlike many other
+baseload power sources, nuclear reactors do not rely on
+carbon-releasing fuels, but harness the energy released by the
+natural splitting of very heavy atoms, such as Uranium and
+Plutonium. This event, called fission, relies on the nucleus absorbing
+a free neutral particle, called a neutron. The splitting then releases
+more neutrons, resulting in further events. Early nuclear scientists
+realized that, given enough material in the correct physical layout,
+the reaction could be self-sustaining: a chain reaction.
+
+This nuclear chain reaction is harnessed by modern nuclear reactors
+to generate large amounts of energy. Neutrons are the key to starting
+and maintaining the chain reaction, so understanding their energy and
+spatial distribution is central to the study of reactors. Many methods
+have been developed to understand this problem, one of which is the
+Monte Carlo method. This method using stochastic sampling to simulate
+the propagation and interactions of neutrons within the reactor.
+
+The \gls{inl} has begun a program to restart a test reactor, the
+\gls{treat} to assess the viability of advanced nuclear
+fuels\todo{citation}. Experiments performed by this reactor will
+support the development and deployment of the next generation of
+nuclear reactors.
+
+\gls{inl} has developed advanced deterministic multi-group codes
+within the MOOSE framework\todo{citation} to model the neutron
+distribution in this reactor. These codes rely on Monte Carlo codes,
+such as Serpent 2, to calculate the cross-sections used by the
+multi-group solver. The fuel elements in the \gls{treat} reactor
+contain a large amount of graphite, leading a highly scattering
+environment. Therefore, calculation of scattering cross-sections is of
+vital importance. One of the methods proposed to improve this
+cross-section generation is \gls{wdt}.
+
+In this manuscript, we will discuss the background of Monte Carlo
+codes and neutron propagation methods. We will then discuss the new
+method, \gls{wdt}, and describe an extension of the method to include
+scattering. Finally, we will assess the results of three test-cases,
+to evaluate the usefulness of the \gls{wdt} method and refine the
+parameters of its use.
+
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../masters_report"
+%%% End:

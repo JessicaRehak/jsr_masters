@@ -1,0 +1,87 @@
+
+\chapter{Conclusion}
+\label{chap:conclusion}
+
+% Overview of what was in the paper
+
+\section{Summary of results}
+\label{sec:results_summary}
+
+For each test case, we examined three parameters: the infinite flux,
+the total cross-section, and the scattering matrix for the zeroth
+scattering moment. For the \gls{pwr} pin cell, we observed
+improvements in the \gls{fom} for the thermal group in all three
+parameters studied. A similar improvement was seen in the fast group
+for the fast reactor pin cell. There is no indication of a clear trend
+for the homogeneous fuel element.
+
+Use of the \gls{wdt} method improved the \gls{fom} for the \gls{pwr}
+and fast reactor pin cells in the groups that experience the most
+absorption events. That is, the thermal group for the \gls{pwr} and
+the fast group for the fast reactor. This is consistent with what we
+expect from using the \gls{wdt} routine. With the original
+delta-tracking routine, collisions that may result in absorption may
+be discarded as virtual and therefore never scored. The \gls{wdt}
+routine scores every collisions that results in absorption and reduces
+the weight as necessary. This is a more efficient routine in energy
+regions where absorption events are occurring at a high rate. The
+additional scoring of absorption events improves the \gls{fom} for the
+total cross-section; by not killing the neutrons at these events, the
+\gls{fom} for flux is improved by survival biasing. 
+
+In regions where a large amount of scattering occurs, the routine is
+slightly less efficient. Instead of rejecting virtual collisions
+outright, the rejection occurs after sampling the type of
+collision. We observe the impact of this inefficiency in energy
+regions where scattering dominates. The total cross-section and the
+scattering matrices entries for the \gls{pwr} fast group both under
+perform standard delta-tracking. The large amount of graphite in the
+homogeneous fuel element makes it a highly scattering environment,
+which may explain the under-performance in total cross-section of
+\gls{wdt} in most cases.
+
+We provide specific recommended values for the \gls{wdt} threshold in
+the sections dedicated to the test cases. Overall, the method provides
+some improvement in the \gls{fom} in circumstances where there is a
+large amount of absorption, in line with what is expected of the method.
+
+\section{Future Work}
+\label{sec:future_work}
+
+There is still a large amount of work to assess the usefulness and
+performance of this method. Based on the results of this study, we
+should assess test cases that have geometrically small regions of high
+absorption, such as control rods. Also, test cases where
+delta-tracking does not perform well, such as \gls{triso} particles,
+should be analyzed. In addition to more test cases, adjusting the
+upper boundary for ray tracing (see Fig.~\ref{fig:ray_wdt}) should be
+analyzed. \Gls{wdt} may outperform ray tracing in some regions of very
+low real collision probability. An expanded parametric study of
+the \gls{wdt} threshold should be performed, to see if the general
+trend observed here holds. This should include both a finer
+examination of the \gls{wdt} threshold value, and examination of other
+output parameters of interest.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+In this manuscript, we have sought to determine the usefulness of the
+\gls{wdt} method. We discussed the background of the Monte Carlo
+simulation and how it is applied to neutral particle propagation. We
+introduced Woodcock delta-tracking as a method to improve the
+simulation in geometrically complex region. This algorithm was
+modified by a recently introduced method, \acrlong{wdt}, which
+replaced some virtual collisions with a weight reduction. We then
+extended the method from considering only absorption events to include
+scattering events. Finally, we examined three parameters of interest
+from three test cases to assess the usefulness of \gls{wdt} and
+determine a preferred threshold value for use of the algorithm. The
+\gls{fom} improvements are in line with what was expected of the
+\gls{wdt} method. The suggested future work should improve our
+understanding of the impact of the method, and provide more robust
+recommendations for future simulations.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../masters_report"
+%%% End:
