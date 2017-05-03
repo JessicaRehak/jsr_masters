@@ -30,10 +30,14 @@ nuclear reactors by testing transient and accident conditions \cite{webtreat}.
 \gls{inl} has developed advanced deterministic multi-group codes
 within the MOOSE framework~\cite{gaston2009} to model the neutron
 distribution in this reactor. These codes rely on Monte Carlo codes,
-such as Serpent 2, to calculate the cross-sections used by the
+such as Serpent 2, 
+% need a citation here.
+to calculate the cross-sections used by the
 multi-group solver. The fuel elements in the \gls{treat} reactor
-contain a large amount of graphite, leading a highly scattering
-environment. Therefore, calculation of scattering cross-sections is of
+contain a large amount of graphite, leading to a highly scattering
+environment. Because it can be quite difficult to accurately represent
+relatively large amounts of scattering, calculation of scattering cross-sections is of
+% or some similar justification that doesn't assume the reader understands this connection.
 vital importance. One of the methods proposed to improve this
 cross-section generation is \gls{wdt}.
 
@@ -43,7 +47,7 @@ method, \gls{wdt}, and describe an extension of the method to include
 scattering. Finally, we will assess the results of three test-cases,
 to evaluate the usefulness of the \gls{wdt} method and refine the
 parameters of its use.
-
+% link to the sections for each topic.
 
 
 
