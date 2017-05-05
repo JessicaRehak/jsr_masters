@@ -8,7 +8,7 @@ statistics to predict and describe a wide variety of behaviors. In
 nuclear engineering, there is a long history of Monte Carlo methods
 used to simulate neutral particle propagation. These methods enjoy a
 wide variety of applications within the field, from fuel cell
-development, to full core analysis. A vital part of the simulation is
+development to full core analysis. A vital part of the simulation is
 the propagation and interaction of neutral particles, neutrons. In
 this chapter we will describe the history and mathematics of these
 neutral particle propagation methods.
@@ -27,21 +27,21 @@ weapons research to assessing the viability and properties of nuclear
 reactors.
 
 When used for particle transport, the Monte Carlo method uses a random
-number generator to simulate a particles history. As the simulation
+number generator to simulate a particle's history. As the simulation
 runs, various parameters are calculated and recorded. This will continue
 for a finite number of histories, $N$, after which the mean value of
 the parameters of interest are calculated:
 \begin{equation*}
-  \bar{x} = \frac{1}{N}\sum_{n=1}^Nx_n
+  \bar{x} = \frac{1}{N}\sum_{n=1}^Nx_n\:,
 \end{equation*}
-Where $x_n$ is the value from the $n$-th history\cite{lewis1993}. The process
+where $x_n$ is the value from the $n$-th history\cite{lewis1993}. The process
 for sampling will be described in general here, and then extended to
 particle propagation methods in Sec.~\ref{sec:propagation}.
 
 As described by Lewis and Miller~\cite{lewis1993}, we first must
 consider a random variable, $x$. We define the probability that $x$
 will have a value between $a$ and $b$: $P\{a \leq x \leq b\}$. We
-are interested in the probability that our random variable will be one
+are interested in the probability that our random variable will have one
 specific value. Therefore, we define the probability that our variable
 will fall within a differential distance to a given value $x$ in the
 limit that the differential distance goes to zero. This is the
@@ -49,23 +49,23 @@ limit that the differential distance goes to zero. This is the
 \Delta x$:
 \begin{equation}
   \label{eq:pdf_initial}
- f(x)\Delta x = \lim_{\Delta x \to 0}  P \{ x \leq x' \leq x + \Delta x \}
+ f(x)\Delta x = \lim_{\Delta x \to 0}  P \{ x \leq x' \leq x + \Delta x \}\:.
 \end{equation}
 Integrating the \gls{pdf} gives the overall probability for the range:
 \begin{equation}
 \label{pdf}
-  \int_a^bf(x)dx = P\{a \leq x \leq b\}
+  \int_a^bf(x)dx = P\{a \leq x \leq b\}\:.
 \end{equation}
 If we integrate the \gls{pdf} over the entire range of possible values
 of $x$, it must equal unity; there is a 100\% chance that its value is
 in the range. Therefore, we must normalize the \gls{pdf}:
 \begin{equation*}
-  \int_{-\infty}^{\infty}f(x)dx = 1, \quad x \in (-\infty,\infty)
+  \int_{-\infty}^{\infty}f(x)dx = 1, \quad x \in (-\infty,\infty)\:.
 \end{equation*}
 We then may define a \gls{cdf}:
 \begin{equation}
   \label{eq:cdf}
-  F(x) = P \{ x' \leq x\} = \int_{-\infty}^xf(x')dx'
+  F(x) = P \{ x' \leq x\} = \int_{-\infty}^xf(x')dx'\:.
 \end{equation}
 In the limit where $x \to \infty$, $F(x) \to 1$ and as
 $x \to -\infty$, $F(x) \to 0$ from the normalization of the
@@ -75,33 +75,36 @@ value of $x$. We therefore have a means to generate values of $x$
 using a random number generator uniformly distributed from zero
 unity. To do so, we set:
 \begin{equation*}
-  F(x) = \xi
+  F(x) = \xi\:,
 \end{equation*}
 where $\xi \in [0,1)$ is a random number. For each random number
 sampled, we sample a single value of $x$. This is determined by
 inverting the \gls{cdf}:
 \begin{equation}
   \label{eq:inverted_cdf}
-  F^{-1}(\xi) = x
+  F^{-1}(\xi) = x\:.
 \end{equation}
 We now have a direct way of using a random number generator to
 generate a randomly distributed variable $x$. We will now apply this
 to particle propagation.
+% you may want to mention that there are many sampling techniques 
+% for when the CDF is not invertible and that those are outside the 
+% scope of this discussion.
 
 \section{Particle Propagation Methods}
 \label{sec:propagation}
 
 As a particle moves through a medium, multiple forces and events will
-affect its trajectory. we will consider neutral elementary particles,
+affect its trajectory. We will consider neutral elementary particles,
 neutrons, so that the effects of gravitational and electromagnetic
 force are negligible. It is therefore a good assumption that a neutron
 will travel in a straight line until a physical collision with another
-particle. Despite the large amount of neutrons present in our
+particle. Despite the large number of neutrons present in our
 simulation, we will ignore improbable collisions between neutrons
-themselves. Neutron collisions with atoms results in an array of
+themselves. Neutron collisions with atoms result in an array of
 effects, including absorption and scattering. The relative probability
-of a collision occurring, and the resulting type of collision are
-dependent on atom that the neutron collides with and the energy of the
+of a collision occurring and the resulting type of collision are
+dependent on the atom that the neutron collides with and the energy of the
 neutron. Modeling the propagation of neutrons is accomplished through
 a variety of algorithms, some of which we described in this section.
 
@@ -110,28 +113,29 @@ a variety of algorithms, some of which we described in this section.
 
 The basic algorithm for simulating particle transport using Monte Carlo is
 ray tracing. This method follows a particle from collision to
-collision, assuming that it travels in a straight, statistically
-sampled path. Material properties determine the distance between
+collision, assuming that it travels in a straight, statistically-sampled 
+path. Material properties determine the distance between
 collisions, and therefore material boundaries must be considered explicitly.
 
 Particles propagating through a material have an interaction
-probability characterized by the material's experimentally determined
-total-cross section, a function of position and the incident neutron
+probability characterized by the material's experimentally-determined
+total cross section, a function of position and the incident neutron
 energy, $\Sigma_t(\mathbf{r}, E)$. The probability of an interaction
-occurring in a differential distance traveled $ds$ is related to the
+occurring in a differential distance $ds$ is related to the
 macroscopic cross-section:
 \begin{equation}
   \label{eq:macroscopic}
-  \frac{dP}{ds} = \Sigma_t(\mathbf{r}, E)
+  \frac{dP}{ds} = \Sigma_t(\mathbf{r}, E)\:.
 \end{equation}
 We assume that each interaction will remove the neutron from the
 incident flux, as it is absorbed or deflected out of the original path
-in either position, energy, or both.  The medium therefore attenuates
+in position, energy, or both.  The medium therefore attenuates
 an incident mono-energetic neutron flux $\phi_0$ as a function of
 distance:
 \begin{equation}
   \label{eq:attenuation}
-  \phi(s) = \phi_0 e^{-s\Sigma_t(\mathbf{r})}
+  \phi(s) = \phi_0 e^{-s\Sigma_t(\mathbf{r})}\:.
+  % I don't think you defined \phi_{0}
 \end{equation}
 The probability that a neutron has its first interaction in
 differential distance $ds$ after
@@ -139,7 +143,7 @@ traveling a distance $s$ is found by dividing the flux at that
 position $\phi(s)$ by the total flux:
 \begin{equation}
   \label{eq:PDFfunct}
-  f(s)ds = \frac{\phi(s)}{\int_0^\infty\phi(s)ds}ds
+  f(s)ds = \frac{\phi(s)}{\int_0^\infty\phi(s)ds}ds\:.
 \end{equation}
 The basis of Eq.~\eqref{eq:PDFfunct} is clarified by an example: if
 the flux after a distance $s$ is half the total flux, then half of the
@@ -152,22 +156,22 @@ Eqs.~\eqref{eq:attenuation} and \eqref{eq:PDFfunct}, and assuming that
 the total cross-section is constant over $\mathbf{r}$\cite{lux1991}:
 \begin{equation}
   \label{eq:PDF}
-  f(s)ds = \Sigma_te^{-s\Sigma_t}ds
+  f(s)ds = \Sigma_te^{-s\Sigma_t}ds\:.
 \end{equation}
 This is the \gls{pdf} of the distance
 traveled before the first collision, $s$. As the distance a neutron travels
 increases, the value of $f(s)$ decreases; it is less probable that a
 neutron will travel further without collision. The \gls{pdf} gives us the
 probability at a point $s$ that a neutron undergoes a collision
-exactly there, integrating over the distance $s$ provides us the
+exactly there; integrating over the distance $s$ provides us the
 probably that a neutron undergoes a collision between 0 and $s$. This
 is the \gls{cdf}:
 \begin{equation}
   \label{eq:cdf}
-  F(s) = \int_0^s f(s')ds' = 1-e^{-s\Sigma_t}
+  F(s) = \int_0^s f(s')ds' = 1-e^{-s\Sigma_t}\:.
 \end{equation}
 As expected, increasing $s$ causes the probability of any interaction,
-$F(s)$, to approach unity. A plot illustrating the behavior of the
+$F(s)$, to approach unity. Plots illustrating the behavior of the
 \gls{pdf} and \gls{cdf} are shown in Fig.~\ref{fig:cdf_pdf}.
 \begin{figure}[hbt]
   \centering
@@ -178,17 +182,17 @@ $F(s)$, to approach unity. A plot illustrating the behavior of the
 
 As the \gls{cdf} ranges from zero to unity, we can sample its value by
 a uniformly distributed random variable $\xi \in [0,1)$. The distance
-traveled $s$, referred to as the path length, can then be expressed as
+traveled, $s$, referred to as the path length, can then be expressed as
 a function of this sampled random variable:
 \begin{align*}
-  F(s) = 1 - e^{-s\Sigma_t} &= \xi \\
-  \ln(e^{-s \Sigma_t}) &= \ln(1-\xi) \\
-  -\Sigma_t s &= \ln(\xi) \\
-  s(\xi) &= \frac{1}{\Sigma_t}\ln(\xi)
+  F(s) = 1 - e^{-s\Sigma_t} &= \xi \:,\\
+  \ln(e^{-s \Sigma_t}) &= \ln(1-\xi)\:, \\
+  -\Sigma_t s &= \ln(\xi) \:,\\
+  s(\xi) &= \frac{1}{\Sigma_t}\ln(\xi)\:.
 \end{align*}
 
 After sampling the path length of the neutron, its position is
-updated, based on its original position and direction. We assumed that
+updated based on its original position and direction. We assumed that
 the cross-section $\Sigma_t$ was constant in a material region, so the
 sampled path length is only valid as long as the neutron remains in
 that region.  If the neutron reaches the boundary between two material
