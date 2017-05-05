@@ -214,17 +214,17 @@ arbitrarily with position and the geometry of the
 problem~\cite{leppanen2013}. Using the ray tracing method, neutrons
 must stop at boundaries to sample a new path length in a new material
 region. To avoid the computational inefficiency that arises in
-geometrically complicated regions, a rejection sampling technique
+geometrically-complicated regions, a rejection sampling technique
 known as Woodcock delta-tracking was developed~\cite{woodcock1965}.
 
 Woodcock delta-tracking introduces the concept of the majorant
 cross-section, chosen to be the maximum of all material total
-cross-sections in the region of interest.
+cross-sections in the region of interest:
 \begin{equation}
   \label{eq:majorant}
-  \Sigma_\mathrm{maj} \equiv \max_{\mathbf{r} \in \mathbb{V}}\{\Sigma_t(\mathbf{r})\}
+  \Sigma_\mathrm{maj} \equiv \max_{\mathbf{r} \in \mathbb{V}}\{\Sigma_t(\mathbf{r})\}\:,
 \end{equation}
-Where $\mathbb{V}$ is the volume of interest, as shown in a
+where $\mathbb{V}$ is the volume of interest. The majorant concept is shown in a
 one-dimensional region in Fig.~\ref{fig:sigma_maj}.
 \begin{figure}[hbt]
   \centering
@@ -234,6 +234,7 @@ one-dimensional region in Fig.~\ref{fig:sigma_maj}.
     region of interest and determines the probability of a real collision.}
   \label{fig:sigma_maj}
 \end{figure}
+% should y axis be \Sigma_{t} for clarity?
 
 The majorant
 cross-section can also be represented as the summation of the total
@@ -241,7 +242,7 @@ cross-section and a delta cross-section:
 \begin{equation}
   \label{eq:majorant2}
   \Sigma_\mathrm{maj} = \Sigma_\delta(\mathbf{r}) +
-  \Sigma_t(\mathbf{r}), \quad\forall \vec{r} \in \mathbb{V}
+  \Sigma_t(\mathbf{r}), \quad\forall \vec{r} \in \mathbb{V}\:.
 \end{equation}
 Following from the definition of $\Sigma_\mathrm{maj}$ in
 Eq.~\eqref{eq:majorant}, the function $\Sigma_\delta(\mathbf{r})$ is
@@ -254,14 +255,13 @@ interest, so we can treat it as a single material. Following the same derivation
 Section~\ref{sec:ray_tracing}, the \gls{pdf} of the first collision occurring after
 $s$ in the region of interest using the majorant cross-section is given by:
 \begin{align}
+ f_{\mathrm{maj}}(s) &= \Sigma_{\mathrm{maj}}e^{-\Sigma_{\mathrm{maj}}s}\\
+& = (\Sigma_{\delta}(\mathbf{r}) + \Sigma_{t}(\mathbf{r}))e^{-\Sigma_{\mathrm{maj}}s}\:.
   \label{eq:majorantpdf}
-  f_\mathrm{maj}(s) &= \Sigma_\mathrm{maj}e^{-\Sigma_\mathrm{maj}s} \\
-  & = (\Sigma_\delta(\mathbf{r}) +
-    \Sigma_t(\mathbf{r}))e^{-\Sigma_\mathrm{maj}s}
 \end{align}
 
 In most of the region of interest, the majorant cross-section is not
-the real cross-section. We must use a technique called rejection
+the real cross-section. To accurately preserve physics, we must use a technique called rejection
 sampling to simulate sampling the real $\Sigma_t(\vec{r})$ while
 actually sampling using $\Sigma_\mathrm{maj}$. 
 
@@ -272,7 +272,7 @@ Koblinger~\cite{lux1991}, rejection sampling requires a \gls{pdf} of
 interest, $f(x)$, and a second \gls{pdf} $g(x)$ for which:
 \begin{equation}
   \label{eq:Mleq}
-  f(x) \leq M\cdot g(x), \forall x
+  f(x) \leq M\cdot g(x), \quad \forall x\:,
 \end{equation} where $M \in \mathbb{R}$ is a constant.
 Sampling from $M\cdot g(x)$ and accepting these samples with probability:
 \begin{equation}
@@ -287,11 +287,11 @@ in Fig.~\ref{fig:circle_square}.
 \begin{figure}[hbt]
   \centering
   \includegraphics[scale=0.75]{images/circle}
-  \caption{Example \acrshort{pdf} function $f(x)$.}
+  \caption{Example \acrshort{pdf} function $f(x) = x^2$.}
   \label{fig:circle_square}
 \end{figure}
 As described in the previous section, we could sample $f(x)$ using the
-\gls{cdf} $F(x)$ found by integrating and then inverting. Instead, we can sample from a
+$F(x)$ found by integrating and then inverting. Instead, we can sample from a
 different \gls{pdf} that is always majorant of $f(x)$, as defined in
 Eq.~\eqref{eq:Mleq}. We can choose $g(x) = 1$, as $f(x) \leq 1$ on
 the interval of interest. The \gls{cdf} of $g(x)$ is easy to
@@ -301,11 +301,13 @@ x$. Therefore, we can sample $g(x)$ by simply sampling a random value $\xi
 from $f(x)$, we then sample another random value $\xi_2 \in (0,1]$ and
 accept our value of $x$ using the probability defined in Eq.~\eqref{eq:preal}:
 \begin{equation*}
-  \xi_2 \leq \frac{f(x)}{g(x)} = x^2
+  \xi_2 \leq \frac{f(x)}{g(x)} = x^2\:.
 \end{equation*}
+% may what to mention that M=1 in this case?
 
 \begin{minipage}{1.0\linewidth}
 Following this algorithm using the simple Matlab script:
+%incomplete sentence and paragraph...
 \begin{lstlisting}
 a = [];                     % Accepted samples
 for i = 1:1000
@@ -338,7 +340,7 @@ geometry of our problem. Therefore, each region has a different
 \gls{cdf} for sampling path length, and described in
 Section~\ref{sec:ray_tracing}. Using rejection sampling, we can sample
 the real collision \gls{pdf}, using a different, simpler \gls{pdf}.
-In Woodcock delta tracking, the second \gls{pdf} $g(x)$ is chosen to
+In Woodcock delta tracking, the second \gls{pdf}, $g(x)$, is chosen to
 be the majorant \gls{pdf}, Eq.~\eqref{eq:majorantpdf}. This is
 beneficial because the majorant cross-section is constant over the
 entire region.
@@ -348,31 +350,27 @@ Eq.~\eqref{eq:Mleq} is satisfied by setting $M=1$:
 \begin{equation}
   \label{eq:cseq}
   \Sigma_t(\mathbf{r}) \leq \Sigma_\mathrm{maj}(\mathbf{r}), \forall
-  \mathbf{r} \in \mathbb{V}
+  \mathbf{r} \in \mathbb{V} \:.
 \end{equation}
 We sample path length using the constant majorant
 cross-section:
 \begin{equation}
   \label{eq:majorantsample}
-  s_\mathrm{maj}(\xi) = -\frac{1}{\Sigma_\mathrm{maj}}\ln(\xi)
+  s_\mathrm{maj}(\xi) = -\frac{1}{\Sigma_\mathrm{maj}}\ln(\xi)\:,
 \end{equation}
-Which samples the \gls{pdf} defined in Eq.\eqref{eq:majorant}:
-\begin{align*}
-    f_\mathrm{maj}(s) &= \Sigma_\mathrm{maj}e^{-\Sigma_\mathrm{maj}s} \\
-  & = (\Sigma_\delta(\mathbf{r}) +
-    \Sigma_t(\mathbf{r}))e^{-\Sigma_\mathrm{maj}s}
-\end{align*}
+which samples the \gls{pdf} defined in Eq.\eqref{eq:majorantpdf}.
+% don't need to repeat equation; I think you mean this eqref?
 We can see that this \gls{pdf} is the sum of two different ones: one
 representing actual collisions based on the real total cross-section
 $\Sigma_t$ and one representing the non-physical collisions based on
 $\Sigma_\delta$. We call these non-physical collisions ``virtual''
 collisions, and these should be eliminated by our rejection
 sampling. To apply rejection sampling, we therefore pick the \gls{pdf}
-we want to sample $f(x)$ and the \gls{pdf} we will actually sample
-$g(x)$ as such:
+we want to sample, $f(x)$, and the \gls{pdf} we will actually sample,
+$g(x)$, as such:
 \begin{align*}
-  f(x) &= \Sigma_t(\vec{r})e^{-\Sigma_\mathrm{maj}s} \\
-  g(x) &= \Sigma_\mathrm{maj}e^{-\Sigma_\mathrm{maj}s}
+  f(x) &= \Sigma_t(\vec{r})e^{-\Sigma_\mathrm{maj}s} \:,\\
+  g(x) &= \Sigma_\mathrm{maj}e^{-\Sigma_\mathrm{maj}s}\:.
 \end{align*}
 We will therefore accept samples with the probability given
 in Eq.~\eqref{eq:preal}:
@@ -382,8 +380,9 @@ in Eq.~\eqref{eq:preal}:
       \frac{\Sigma_t(\mathbf{r})e^{-\Sigma_\mathrm{maj}s}}{\Sigma_\mathrm{maj}e^{-\Sigma_\mathrm{maj}s}}
   = \frac{\Sigma_t(\mathbf{r})}{\Sigma_\mathrm{maj}}
 \end{align}
+% what's M?
 We will refer to this as the probability of a ``real'' collision,
-$P_\mathrm{real}$ to differentiate these physical collisions from the
+$P_\mathrm{real}$, to differentiate these physical collisions from the
 non-physical virtual collisions. It is important to note that the
 probability is independent of path length $s$, but is dependent on
 position $\vec{r}$. At each collision, the material region at the
@@ -417,17 +416,27 @@ Fig.~\ref{fig:dt}.
 
 Now, the path length can be sampled across multiple material regions
 of varying $\Sigma_t$ without explicitly stopping the neutron at a
-given boundary. This method can become computationally inefficient in
+given boundary. 
+% I'd add a sentence about why this is important--make us see that this is a thing it is
+% a good idea to choose sometimes; the imbalance in talking about the negative
+% properties leaves me wondering why anyone would choose it.
+This method can become computationally inefficient in
 regions where the total cross-section is much less than the majorant
 cross-section, leading to oversampling of virtual collisions. This is
 seen in geometries that include localized absorbers, such as control
-rods. Another downside is that the \gls{tle} for
-flux cannot be used. The \gls{tle} requires calculating the track-lengths
+rods. 
+
+Another downside is that the \gls{tle} for
+flux cannot be used. 
+% Apparently this isn't true. I didn't get the details, but this came up for Kelly at M&C
+% Check with her to see if she found the reference about it. 
+The \gls{tle} requires calculating the track-lengths
 within a particular material cell, and therefore does not work when
 the neutron path length can cross one or more material
 boundaries. The \gls{cfe} can be used in its
 place, but often results in inferior statistics as not every track
 length sampled ends in a collision~\cite{leppanen2013}.
+% May want to elaborate on all of this, but it'll likely change given previous comment. 
 
 \section{The Serpent 2 Monte Carlo Code}
 \label{sec:serpent2}
