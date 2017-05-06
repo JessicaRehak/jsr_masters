@@ -442,9 +442,8 @@ length sampled ends in a collision~\cite{leppanen2013}.
 \label{sec:serpent2}
 
 The Serpent Monte Carlo code was developed at \gls{vtt} as a PhD
-thesis project~\cite{leppanen2007}. A second iteration of the code
-Serpent 2, is currently under development. The Serpent and Serpent 2
-Monte Carlo Code use a combination of surface tracking, Woodcock
+thesis project~\cite{leppanen2007}. A second iteration of the code,
+Serpent 2, is currently under development. Both versions of Serpent use a combination of surface tracking, Woodcock
 delta-tracking, and rejection sampling for non-uniform density
 distributions. Serpent 2 selects between surface tracking and
 delta-tracking by examining the ratio of total cross-section to
@@ -452,12 +451,13 @@ majorant cross-section~\cite{leppanen2010}. In regions where many
 virtual collisions would occur, the code preferentially switches to
 ray tracing. This is to avoid the computational inefficiency of
 processing virtual collisions that provide no statistics. This
-selection determined by a constant $c$ and the inequality in
+selection is determined by a constant $c$ and the inequality in
 Eq.~\eqref{eq:s2deltasurface}.
 \begin{equation}
   \label{eq:s2deltasurface}
   \frac{\Sigma_t(\vec{r})}{\Sigma_\mathrm{maj}} > 1 - c
 \end{equation}
+
 If this inequality is true, delta-tracking is used, otherwise
 ray-tracing (referred to as surface-tracking in Serpent 2) is used. By
 default, the value of $c$ is 0.9, as this was determined to produce
@@ -488,6 +488,7 @@ input file using \verb|set dt|.
     standard Serpent 2.}
   \label{fig:ray_wdt_normal}
 \end{figure}
+% Not sure that this is really illustrating anything.
 
 \subsubsection{Nonuniform Density Distributions}
 \label{sec:nonuniform}
