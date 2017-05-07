@@ -31,13 +31,13 @@ take values ${x_1 \ldots x_n}$ with  probabilities ${p_1 \ldots p_n}$, respectiv
 is given by:
 \begin{equation}
   \label{eq:expval}
-  E[x] = x_1p_1 + x_2p_2 \ldots + x_{n}p_n
+  E[x] = x_1p_1 + x_2p_2 \ldots + x_{n}p_n\:.
 \end{equation}
 For example, imagine we have a bag with four coins, three worth \$0.25 and
 one worth \$0.10. The values and their probabilities are:
 \begin{align*}
-  x_1 = 0.25, \quad p_1 = \frac{3}{4} = 0.75 \\
-  x_2 = 0.10, \quad p_2 = \frac{1}{4} = 0.25
+  x_1 = 0.25, \quad p_1 = \frac{3}{4} = 0.75 \:;\\
+  x_2 = 0.10, \quad p_2 = \frac{1}{4} = 0.25\:.
 \end{align*}
 For a given draw, we could sample a random value and use the
 probabilities $p_1$ and $p_2$ to determine the coin drawn. Or, we can
@@ -60,15 +60,16 @@ for i = 1:n
 end
 \end{lstlisting}
 \end{minipage}
-
+% will the campus get picky about the margins? Can you indent this?
+%
 Although the exact values will vary due to the small sample size, \verb|v/n|
 $\approx 0.2125$, as we expected.
 
 This framework is often applied to neutron propagation in a process
 called ``survival biasing'' \cite{lewis1993}. At each collision location, the type of
 interaction is sampled and the appropriate action taken. In the case
-of an capture event the neutron is ``killed,'' removed from the
-simulation. While this accurately reflects the physical reality, it
+of a capture event, the neutron is ``killed'' (removed from the
+simulation). While this accurately reflects the physical reality, it
 does not produce good statistics. Assuming we are using a collision
 estimator, the neutron's contribution to our simulation is the history
 of collisions. Each of these provide a score to that particular
@@ -87,21 +88,23 @@ we therefore have two possible event types: capture events, and
 scattering events. The probabilities $p$ will be given by the
 ratios of the cross-sections:
 \begin{align*}
-  p_{\mathrm{capture}} = \frac{\Sigma_{c}}{\Sigma_t} \\
-  p_{\mathrm{scattering}} = \frac{\Sigma_{s}}{\Sigma_t}
+  p_{\mathrm{capture}} = \frac{\Sigma_{c}}{\Sigma_t} \:,\\
+  p_{\mathrm{scattering}} = \frac{\Sigma_{s}}{\Sigma_t}\:,
 \end{align*}
-Where $\Sigma_{c}$ and $\Sigma_{s}$ are the macroscopic cross-sections
+where $\Sigma_{c}$ and $\Sigma_{s}$ are the macroscopic cross-sections
 for capture and scattering, respectively.
 
 In the coin example, each had a different monetary value, giving us an
 expected value when we drew many times. We must introduce something
 similar for neutrons. It is convention to call this intrinsic value
-``weight'' and represents the importance of the neutron. All neutrons
+``weight'', which represents the importance of the neutron. All neutrons
 are born with the same weight, usually unity, and are killed when they
-have zero weight. By that convention a capture event that kills a
+have zero weight. By that convention, a capture event that kills a
 neutron immediately forces the final weight of the neutron to zero,
 $w_{f,\mathrm{capture}} = 0$. We can then calculate the expected
 value of the interaction of a neutron with initial weight $w_i$:
+% what is w_{f}? is it final and w_{i} is initial, wrt the specific interaction?
+% you can probably shorten scattering to s and capture to c
 \begin{align*}
   E[w_f] &= w_{f,\mathrm{scattering}}p_\mathrm{scattering} +
            w_{f,\mathrm{capture}}p_\mathrm{capture} \\
@@ -113,7 +116,9 @@ unchanged. Therefore, $w_{f,\mathrm{scattering}} = w_i$:
 \begin{align*}
   E[w_f] = w_ip_\mathrm{scattering} 
 \end{align*}
-Now every collision is considered to be a non-capture event. The
+Now,
+% what is the now? with implicit capture?
+every collision is considered to be a non-capture event. The
 neutron continues with a lower weight, proportional to the probability
 that the event was scattering. The weight lost in the collision is
 scored as capture:
@@ -124,6 +129,7 @@ scored as capture:
 &= w_i(1-p_\mathrm{scattering})
 \end{align*}
 A similar method will be used by weighted delta-tracking.
+%S = socre?
 
 \subsection{Russian Rouletting}
 \label{sec:rouletting}
@@ -136,8 +142,7 @@ weight. These particles will only contribute small amounts to our
 statistics, so tracking them is computationally inefficient.  To
 mitigate this, a lower cutoff for the weight is introduced. Once
 neutrons are below this weight, they have a chance of being killed by
-a Russian Rouletting routine. The general algorithm is shown in
-Algorithm~\ref{alg:roulette}.
+a Russian Rouletting routine. 
 \begin{algorithm}
 \caption{Rouletting Routine}\label{alg:roulette}
 \begin{algorithmic}[1]
@@ -151,12 +156,14 @@ Algorithm~\ref{alg:roulette}.
 \EndIf
 \end{algorithmic}
 \end{algorithm}
-Following a collision, if the weight of the colliding particle is
+
+The general algorithm is shown in
+Algorithm~\ref{alg:roulette}. Following a collision, if the weight of the colliding particle is
 below a defined weight threshold, a random number is sampled. If this
 number is below a defined rouletting probability, the particle is
 killed. If the particle survives rouletting, its weight is increased
-proportional to the rouletting probability. By killing low weight
-particles, or increasing their weight, the inefficiency of tracking
+proportionaly to the rouletting probability. By either killing low weight
+particles or increasing their weight, the inefficiency of tracking
 low-weight particles can be reduced.
 
 \subsection{\Acrlong{wdt}}
@@ -170,33 +177,33 @@ of implicit capture discussed in Section~\ref{sec:implicit}.
 
 The \gls{wdt} method samples the particle path length in the same fashion as
 Woodcock delta-tracking. As described in Section~\ref{sec:delta-tracking},
-after each path length sampled, the delta-tracking method accepts the
+after each path length is sampled, the delta-tracking method accepts the
 collision as real with the probability shown in
 Eq.~\ref{eq:preal}. The \gls{wdt} method bypasses this rejection sampling by
 accepting all collisions as real with a subsequent reduction in
 weight. As discussed in Section~\ref{sec:implicit}, replacing a
 statistical event requires calculation of the expectated value. In
 this case, the two events are a real collision and a virtual
-collision.
+collision:
 \begin{equation}
   \label{eq:wdtexpected}
-  E[w_f] = w_{f,\mathrm{real}}P_{\mathrm{real}} + w_{f,\mathrm{virt}}P_{\mathrm{virt}}
+  E[w_f] = w_{f,\mathrm{real}}P_{\mathrm{real}} + w_{f,\mathrm{virt}}P_{\mathrm{virt}}\:.
 \end{equation}
 Morgan and Kotlyar examine a 1D test case with absorption. As an
 absorption event removes the particle, the resulting final weight of a
 real collision is zero. A virtual collision is rejected, and therefore
 leaves the weight unchanged. Inserting the appropriate values into
 Eq.~\eqref{eq:wdtexpected} gives the expected value of the final
-weight for an absorption event.
+weight for an absorption event:
 \begin{align*}
   \label{eq:mkexpected}
   E[w_f] &= w_{f,\mathrm{real}}P_{\mathrm{real}} +
            w_{f,\mathrm{virt}}P_{\mathrm{virt}} \\
   &= 0 + w_iP_{\mathrm{virt}} \\
   &= w_i(1-P_\mathrm{real}) \\
-  &= w_i\left(1-\frac{\Sigma_t}{\Sigma_\mathrm{maj}}\right)
+  &= w_i\left(1-\frac{\Sigma_t}{\Sigma_\mathrm{maj}}\right)\:.
 \end{align*}
-The particle that is left following the collsion continues propegating
+The particle that is left following the collision continues propagating
 as if it underwent a virtual collision. In this case, the absorption
 is then scored using the expectation value of the score.
 \begin{align*}
@@ -204,9 +211,9 @@ is then scored using the expectation value of the score.
   &= E[w_i] - E[w_f] \\
   &= w_i\left(\frac{\Sigma_t}{\Sigma_\mathrm{maj}}\right)
 \end{align*}
-This is implemented by Kotlyar and Morgan in a 1D problem and the
-results are verified with the analytical solution. The authors point
-out that a rouletting routine should be implemented when this is used,
+This algorithm is implemented by Kotlyar and Morgan in a 1D problem and the
+results are verified with an analytical solution. The authors point
+out that a rouletting routine should be implemented when \gls{wdt} is used,
 to prevent the tracking of low-weight neutrons.
 
 \section{\Acrlong{wdt} with scattering}
@@ -216,13 +223,13 @@ to prevent the tracking of low-weight neutrons.
 In a scattering event, the weight of the incident particle does not
 change. Therefore, application of the expectation value as in
 Section~\ref{sec:wdttheory} results in an expected value of the final
-weight equal to the initial weight.
+weight equal to the initial weight:
 \begin{align*}
   E[w_f] &= w_{f,\mathrm{real}}P_{\mathrm{real}} +
            w_{f,\mathrm{virt}}P_{\mathrm{virt}} \\
   &= w_iP_\mathrm{real} + w_iP_{\mathrm{virt}} \\
   &= w_i(P_\mathrm{real} + 1 -P_\mathrm{real}) \\
-  &= w_i
+  &= w_i\:.
 \end{align*}
 
 This doesn't model what we expect. We can view \gls{wdt} as splitting
@@ -230,7 +237,7 @@ the weighted neutron into two particles. One carries the real portion
 of the weight and experiences the collision. The other carries the
 virtual portion of the weight and continues propagating as if no
 collision occurred. This works fine for absorption, where the portion
-that experiences the collision does not propagate, it is immediately
+that experiences the collision does not propagate: it is immediately
 killed and scored. But, when the neutron is split into a scattering
 portion and a virtual portion, no weight is lost because neither of
 those events change the weight.
@@ -243,8 +250,11 @@ particle that undergoes scattering. In problems with scattering, this
 results in a rapid multiplication of neutrons. When implemented into
 Serpent 2, this multiplication very quickly filled any available
 neutron buffer in simulations of a \gls{bwr}, ending
-the simulation. Another method for handling scattering events must be
+the simulation. Another method for handling scattering events was therefore 
 developed.
+% Add a sentence or two in here (or a quick additional paragraph) pointing out that this 
+% is new: no one has done this before. It's good to explicitly call attention to your 
+% contribution so that readers are clear what's new and what was your intellectual contribution.
 
 \subsection{Scattering Rejection Sampling}
 \label{sec:scattering}
@@ -252,7 +262,9 @@ developed.
 As described in the last section, the \gls{wdt} method may result in
 an intractable simulation when applied to scattering. To maintain
 proper statistics, scattering must take into account the possibility
-of a virtual collision while using delta-tracking. To achieve this
+of a virtual collision while using delta-tracking. 
+% I'm confused by the previous and following 2 sentences.  
+To achieve this
 goal, the delta-tracking rejection sampling that had been supplanted
 by \gls{wdt} was moved into the scattering subroutine. Therefore, the
 new routine uses both rejection-sampling and implicit events to
@@ -299,7 +311,7 @@ place prior to collision type sampling, and collision scoring can
 occur between the two. This is the routine that Serpent 2 used, prior
 to modification for the above scheme. By moving the rejection sampling
 after the collision type sampling, the collision score is no longer
-agnostic of the type of collision that will occur. Therefore, in the
+agnostic to the type of collision that will occur. Therefore, in the
 implementation of this routine in Serpent 2, the collision scoring was
 moved after the collision type sampling.
 
