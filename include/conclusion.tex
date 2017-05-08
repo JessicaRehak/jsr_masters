@@ -6,6 +6,7 @@
 
 \section{Summary of results}
 \label{sec:results_summary}
+% I'd have a more introductory paragraph that brings us back to the larger context of what we're doing and why
 
 For each test case, we examined three parameters: the infinite flux,
 the total cross-section, and the scattering matrix for the zeroth
@@ -28,13 +29,14 @@ regions where absorption events are occurring at a high rate. The
 additional scoring of absorption events improves the \gls{fom} for the
 total cross-section; by not killing the neutrons at these events, the
 \gls{fom} for flux is improved by survival biasing. 
+% probably ok for here, but may want to emphasize some of these physical characeteristics in the problem description in the final paper.
 
 In regions where a large amount of scattering occurs, the routine is
 slightly less efficient. Instead of rejecting virtual collisions
 outright, the rejection occurs after sampling the type of
 collision. We observe the impact of this inefficiency in energy
 regions where scattering dominates. The total cross-section and the
-scattering matrices entries for the \gls{pwr} fast group both under
+scattering matrix entries for the \gls{pwr} fast group both under
 perform standard delta-tracking. The large amount of graphite in the
 homogeneous fuel element makes it a highly scattering environment,
 which may explain the under-performance in total cross-section of
@@ -57,8 +59,8 @@ should be analyzed. In addition to more test cases, adjusting the
 upper boundary for ray tracing (see Fig.~\ref{fig:ray_wdt}) should be
 analyzed. \Gls{wdt} may outperform ray tracing in some regions of very
 low real collision probability. An expanded parametric study of
-the \gls{wdt} threshold should be performed, to see if the general
-trend observed here holds. This should include both a finer
+the \gls{wdt} threshold should be performed to investigate if the general
+trend observed here holds. Such a study should include both a finer
 examination of the \gls{wdt} threshold value, and examination of other
 output parameters of interest.
 
@@ -80,6 +82,7 @@ determine a preferred threshold value for use of the algorithm. The
 \gls{wdt} method. The suggested future work should improve our
 understanding of the impact of the method, and provide more robust
 recommendations for future simulations.
+
 
 %%% Local Variables:
 %%% mode: latex
