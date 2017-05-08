@@ -61,7 +61,7 @@ end
 \end{lstlisting}
 \end{minipage}
 % will the campus get picky about the margins? Can you indent this?
-%
+% Removed the line numbers, they were extraneous anyway -jsr
 Although the exact values will vary due to the small sample size, \verb|v/n|
 $\approx 0.2125$, as we expected.
 
@@ -88,8 +88,8 @@ we therefore have two possible event types: capture events, and
 scattering events. The probabilities $p$ will be given by the
 ratios of the cross-sections:
 \begin{align*}
-  p_{\mathrm{capture}} = \frac{\Sigma_{c}}{\Sigma_t} \:,\\
-  p_{\mathrm{scattering}} = \frac{\Sigma_{s}}{\Sigma_t}\:,
+  p_{c} = \frac{\Sigma_{c}}{\Sigma_t} \:,\\
+  p_{s} = \frac{\Sigma_{s}}{\Sigma_t}\:,
 \end{align*}
 where $\Sigma_{c}$ and $\Sigma_{s}$ are the macroscopic cross-sections
 for capture and scattering, respectively.
@@ -97,39 +97,43 @@ for capture and scattering, respectively.
 In the coin example, each had a different monetary value, giving us an
 expected value when we drew many times. We must introduce something
 similar for neutrons. It is convention to call this intrinsic value
-``weight'', which represents the importance of the neutron. All neutrons
-are born with the same weight, usually unity, and are killed when they
-have zero weight. By that convention, a capture event that kills a
-neutron immediately forces the final weight of the neutron to zero,
-$w_{f,\mathrm{capture}} = 0$. We can then calculate the expected
-value of the interaction of a neutron with initial weight $w_i$:
+``weight'', which represents the importance of the neutron. All
+neutrons are born with the same weight, usually unity, and are killed
+when they have zero weight. At each point of interaction, the incoming
+neutron has an initial weight based on the neutron's history $w_i$,
+and a final weight $w_f$ that depends on the type of interaction. A
+capture event that kills a neutron immediately forces the final weight
+of the neutron to zero $w_{f,c} = 0$. We can then
+calculate the expected value of the interaction of a neutron with
+initial weight $w_i$:
 % what is w_{f}? is it final and w_{i} is initial, wrt the specific interaction?
 % you can probably shorten scattering to s and capture to c
 \begin{align*}
-  E[w_f] &= w_{f,\mathrm{scattering}}p_\mathrm{scattering} +
-           w_{f,\mathrm{capture}}p_\mathrm{capture} \\
-  &= w_{f,\mathrm{scattering}}p_\mathrm{scattering}
+  E[w_f] &= w_{f,s}p_\mathrm{s} +
+           w_{f,c}p_\mathrm{c} \\
+  &= w_{f,s}p_\mathrm{s}
 \end{align*}
 A scattering event merely changes the location of the neutron in
 energy and angle phase space, leaving its importance
-unchanged. Therefore, $w_{f,\mathrm{scattering}} = w_i$:
+unchanged. Therefore, $w_{f,s} = w_i$ and:
 \begin{align*}
-  E[w_f] = w_ip_\mathrm{scattering} 
+  E[w_f] = w_ip_s\:.
 \end{align*}
-Now,
-% what is the now? with implicit capture?
+With implicit capture
+% what is the now? with implicit capture? Yes -jsr
 every collision is considered to be a non-capture event. The
 neutron continues with a lower weight, proportional to the probability
 that the event was scattering. The weight lost in the collision is
 scored as capture:
 \begin{align*}
-  S_\mathrm{capture} &= E[w_i - w_f] \\
+  S_c &= E[w_i - w_f] \\
   &= E[w_i] - E[w_f] \\
-&= w_i - w_ip_\mathrm{scattering} \\
-&= w_i(1-p_\mathrm{scattering})
+&= w_i - w_ip_{s} \\
+&= w_i(1-p_{s})\:,
 \end{align*}
-A similar method will be used by weighted delta-tracking.
-%S = socre?
+where $S_c$ is the score for capture. A similar method will be used
+by weighted delta-tracking.
+%S = socre? Yes -jsr
 
 \subsection{Russian Rouletting}
 \label{sec:rouletting}
@@ -250,8 +254,11 @@ particle that undergoes scattering. In problems with scattering, this
 results in a rapid multiplication of neutrons. When implemented into
 Serpent 2, this multiplication very quickly filled any available
 neutron buffer in simulations of a \gls{bwr}, ending
-the simulation. Another method for handling scattering events was therefore 
-developed.
+the simulation. We therefore expanded the \gls{wdt} method with a
+novel approach to handling scattering. This approach combines the
+\gls{wdt} methodology with the standard delta-tracking rejection
+sampling in a way that has not been done before.
+
 % Add a sentence or two in here (or a quick additional paragraph) pointing out that this 
 % is new: no one has done this before. It's good to explicitly call attention to your 
 % contribution so that readers are clear what's new and what was your intellectual contribution.
@@ -260,17 +267,15 @@ developed.
 \label{sec:scattering}
 
 As described in the last section, the \gls{wdt} method may result in
-an intractable simulation when applied to scattering. To maintain
-proper statistics, scattering must take into account the possibility
-of a virtual collision while using delta-tracking. 
-% I'm confused by the previous and following 2 sentences.  
-To achieve this
-goal, the delta-tracking rejection sampling that had been supplanted
-by \gls{wdt} was moved into the scattering subroutine. Therefore, the
-new routine uses both rejection-sampling and implicit events to
-account for the possibility of real and virtual collisions. The
-algorithm is shown in Alg.~\ref{alg:scattalg} and a flow chart of the
-routine is shown in Fig.~\ref{fig:wdt}
+an intractable simulation when applied to scattering.
+This occurred because the \gls{wdt} method splits the incoming weight
+in two: one portion for a real collision, one portion for a virtual
+collision. We developed a new methodology that avoids splitting the
+neutron when scattering, while keeping the splitting otherwise. To
+accomplish this, the original delta-tracking rejection sampling was
+moved into the scattering subroutine. The algorithm is shown in
+Alg.~\ref{alg:scattalg} and a flow chart of the routine is shown in
+Fig.~\ref{fig:wdt}
 
 \begin{figure}[p]
 \begin{algorithm}[H]
@@ -331,10 +336,13 @@ computational inefficiency. These two situations imply that
 there is a region between low and high values of $P_\mathrm{real}$
 where \gls{wdt} may provide benefit.
 
-% what is the next sentence?
-\gls{wdt} is to be used, and can also set the value of the \gls{wdt}
-threshold $t_{\mathrm{wdt}}$. This is the ratio below which \gls{wdt} will be used. This
-scheme is summarized in Fig.~\ref{fig:ray_wdt}.
+This region is defined by two values, summarized in
+Fig.~\ref{fig:ray_wdt}. On the lower end, the value of $(1-c)$ defines
+the threshold below which surface tracking is used. On the upper end,
+a new parameter $t_{\mathrm{wdt}}$ defines the threshold below which
+\gls{wdt} will be used instead of normal delta-tracking. This provides
+the user with the ability to exactly define the region where \gls{wdt}
+will be used.
 \begin{figure}[hbtp]
   \centering
   \begin{align*}
