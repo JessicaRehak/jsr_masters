@@ -3,7 +3,7 @@
 We expect that the \gls{wdt} method will improve the statistics of
 Serpent 2 calculations. With normal delta-tracking, virtual collisions
 provide no statistical benefit, and are therefore an inefficient use
-of computational resources. Virtual collisions that results in
+of computational resources. Virtual collisions that result in
 absorption events do contribute to statistics when using
 \gls{wdt}. Therefore, we expect an improvement in the results of a
 Serpent 2 simulation. In this section, we will describe how
@@ -18,19 +18,25 @@ and the results of those test cases.
 
 Monte Carlo codes such as Serpent 2 run many batches of a single
 simulation, calculating the mean of values of interest $\hat{x}$
-across the many runs. By the central limit theorem, we know that the
+across many runs. 
+% does serpent use batches if fission isn't involved? 
+% maybe define a batch?
+% is this across many batches, or many simulated particles?
+By the central limit theorem, we know that the
 means across many simulations will form a normal distribution with
 variance $\sigma^2(\hat{x})$. We are interested in reducing the
-variance of the final value which will provide more confidence in the
+variance of the final value, which will provide more confidence in the
 simulation results. In general, running the simulation more times will
 reduce this variance at the cost of requiring more computation
 time. The variance is proportional to the number of cycles $n$:
+% Is this cycles, or number of particles? How is that related to batches?
 \begin{equation}
 \label{eq:variance}
-  \sigma^2(\hat{x}) \propto \frac{1}{n}
+  \sigma^2(\hat{x}) \propto \frac{1}{n}\:.
 \end{equation}
-Serpent 2 reports the standard deviation of the mean
-$\sigma(\hat{x})$, proportional to $n^{-1/2}$. The standard deviation
+
+Serpent 2 reports the standard deviation of the mean,
+$\sigma(\hat{x})$, which is proportional to $n^{-1/2}$. The standard deviation
 plotted against cycles is shown in Fig.~\ref{fig:error_convergence} on
 a log-log plot. As expected, we see a linear evolution with a slope of
 1/2 once enough cycles have been executed to give good statistical calculations.
@@ -42,23 +48,30 @@ a log-log plot. As expected, we see a linear evolution with a slope of
     function of Serpent 2 cycle, with \gls{wdt} threshold of 0.2.}
   \label{fig:error_convergence}
 \end{figure}
+% you haven't defined \phi_{\infty}
 We can always reduce the variance by running the simulation longer; a
+% longer, or with more particles/cycles?
+% I think this section needs a cleanup on precision of word choice about all of this. 
 measure of our simulation quality, therefore, should be independent of
-cycles. We establish a \gls{fom} that is independent of $n$.  The
+cycles. 
+
+We establish a \gls{fom} that is independent of $n$.  The
 standard \gls{fom} used by most simulations, described by Lewis and
 Miller~\cite{lewis1993}, is shown in Eq.~\eqref{eq:fom}:
 \begin{equation}
   \label{eq:fom}
-  \mathrm{FOM} = \frac{1}{\sigma(\hat{x})^2T}
+  \mathrm{FOM} = \frac{1}{\sigma(\hat{x})^2T}\:,
 \end{equation}
-where $T$ is the runtime of the simulation, proportional to the number
+where $T$ is the runtime of the simulation and is proportional to the number
 of cycles $T \propto n$. Plugging this and
-Eq.~\eqref{eq:variance} into Eq.~\eqref{eq:fom}:
+Eq.~\eqref{eq:variance} into Eq.~\eqref{eq:fom} yields:
 \begin{equation*}
   \mathrm{FOM} = \frac{1}{\sigma(\hat{x})^2T} =
-  \frac{n}{C_1}\cdot\frac{1}{C_2\cdot n} = C_3
+  \frac{n}{C_1}\cdot\frac{1}{C_2\cdot n} = C_3\:,
 \end{equation*}
-where $C_1,C_2,C_3$ are constants. As we can see, we expect the
+where $C_1,C_2,C_3$ are constants. 
+
+As we can see, we expect the
 \gls{fom} to be a constant value, independent of the number of cycles
 $n$.  A higher \gls{fom} indicates higher accuracy per computation
 time, and therefore a more efficient algorithm. Serpent 2 collects
@@ -77,7 +90,9 @@ final value. As seen in Fig.~\ref{fig:fom_convergence}, the \gls{fom}
 begins to converge around $1\times 10^4$ cycles in this example. Statistical
 variations in the standard deviation seen in
 Fig.~\ref{fig:error_convergence} are amplified by squaring and
-inverting to calculate \gls{fom}. It may take many cycles for the
+inverting to calculate \gls{fom}. 
+% why are we inverting and squaring the fom? how is that related to this plot?
+It may take many cycles for the
 \gls{fom} to converge to a single value. Therefore, we calculate an
 average value using a selected number of the final data points.
 \begin{figure}[hbtp]
@@ -95,14 +110,14 @@ average value using a selected number of the final data points.
 Serpent 2 generates a single output file as the simulation runs. The
 parameters of interest are overwritten as their mean value and
 standard deviation are updated. This is sufficient to calculate the
-final value of the \gls{fom} which gives an indication of the quality
+final value of the \gls{fom}, which gives an indication of the quality
 of the simulation. In addition to this, figures such as those shown in
 Sec.~\ref{sec:fom} are useful to verify that the \gls{fom} has in fact
 converged, and that the variance is reducing as expecting. Therefore,
 in addition to changing the Serpent 2 source code to include the
 \gls{wdt} method, it was modified to generate uniquely named output
 files at the end of each batch. Processing these files enables us to
-generate to above graphs.
+generate variance and FOM convergence graphs.
 
 As seen in Fig.~\ref{fig:fom_convergence}, the final \gls{fom} is not
 a single value, but may oscillate for a large number of
@@ -117,6 +132,8 @@ developed a python package, \verb|WDT_Analysis|.
 As described above, we modified the Serpent 2 source code to generate
 uniquely named output files at various cycle values. The
 \verb|WDT_Analysis| package leverages python's object oriented
+% I'd maybe include a footnote with a link to the github, or something like that
+% Whatever is the best way for someone to be able to find the package documentation.
 programming structure to enable easy analysis of the data. We utilize
 a module, \verb|fom|, to analyze the convergence of \gls{fom} across
 many Serpent 2 output files. A summary
