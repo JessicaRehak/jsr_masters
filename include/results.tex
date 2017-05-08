@@ -212,9 +212,9 @@ we compared the final average \gls{fom} for each value of
 $t_{\mathrm{wdt}}$ to the final average \gls{fom} with no \gls{wdt}:
 \begin{equation*}
   R(t_{\mathrm{wdt}}) =
-  \frac{\overline{\mathrm{FOM}}(t_\mathrm{wdt})}{\overline{\mathrm{FOM}}_0}
+  \frac{\overline{\mathrm{FOM}}(t_\mathrm{wdt})}{\overline{\mathrm{FOM}}_0}\:,
 \end{equation*}
-Where $\overline{\mathrm{FOM}}_0 =
+where $\overline{\mathrm{FOM}}_0 =
 \overline{\mathrm{FOM}}(0.1)$ is
 the average \gls{fom} with no \gls{wdt}. Increasing values of
 $t_{\mathrm{wdt}}$ leads to increasing amount of \gls{wdt} over
@@ -276,6 +276,7 @@ Pitch              & 1.33          \\ \bottomrule
 \subsection{Infinite Flux}
 A summary of the \gls{fom} ratio,
 $\overline{\mathrm{FOM}}(t_{\mathrm{wdt}})$, for the \gls{pwr} pin
+% I thought the ratio was R, and that \overline{\mathrm{FOM}}(t_{\mathrm{wdt}}) was an average, not a ratio?
 cell for infinite flux ($\phi_{\infty}$) is shown in Tab.~\ref{tab:pwr_inf_flx} and
 shown graphically in Fig.~\ref{fig:pwr_inf_flx}.
 \begin{table}[hbtp]
@@ -283,8 +284,8 @@ shown graphically in Fig.~\ref{fig:pwr_inf_flx}.
   \caption[$\overline{\mathrm{FOM}}$ and ratio for
     the \acrshort{pwr} pin cell infinite flux.]{$\overline{\mathrm{FOM}}$ as a function of
     $t_{\mathrm{wdt}}$ and the ratio of values to the base case for
-    the \gls{pwr} pin cell infinite flux.}
-  \begin{tabular}{cc} Fast group ($E > 0.0625$) & Slow group \\
+    the \gls{pwr} pin cell \textit{infinite flux}.}
+  \begin{tabular}{cc} Fast group ($E > 0.0625$) & Thermal group \\
 \begin{tabular}{lrr}
 \toprule
 $t_{\mathrm{wdt}}$ &                   $\overline{\mathrm{FOM}}$ & Ratio\\
@@ -330,18 +331,18 @@ $t_{\mathrm{wdt}}$ &                   $\overline{\mathrm{FOM}}$ &
   \includegraphics[scale=0.9]{images/results/pwr_inf_flx_grp_2} \\
     (b) Group 2
   \end{tabular}
-  \caption[Figure of merit ratio of the infinite flux for the
-  PWR]{Figure of merit ratio of the infinite flux for the PWR vs the
-    \gls{wdt} threshold for the (a) high and (b) low energy
+  \caption[Figure of merit ratio of the \textit{infinite flux} for the
+  PWR]{Figure of merit ratio of the \textit{infinite flux} for the PWR vs the
+    \gls{wdt} threshold for the (a) fast and (b) thermal energy
     groups. The group boundary is at $0.0625$ eV. \gls{fom} is
     calculated using the last 20 data points.}
   \label{fig:pwr_inf_flx}
 \end{figure}
-
+%
 These ratios were calculated using the final 20 data points for each
-series, then comparing to the base case. For the fast group, \gls{wdt} threshold values
+series, then compared to the base case. For the fast group, \gls{wdt} threshold values
 of 0.6 and higher return a consistently higher \gls{fom} ratio. This
-behavior is not observed in the slow group \gls{fom} ratio.
+behavior is not observed in the thermal group \gls{fom} ratio.
 
 \subsection{Infinite Total Cross-section}
 \label{sec:pwr_inf_total}
@@ -350,19 +351,18 @@ $\overline{\mathrm{FOM}}(t_{\mathrm{wdt}})$, for the \gls{pwr} pin
 cell for infinite total cross-section ($\Sigma_{t,
   \infty}$) is shown in Tab.~\ref{tab:pwr_inf_tot} and shown
 graphically in Fig.~\ref{fig:pwr_inf_tot}. The \gls{fom} ratio for the
-fast group when using \gls{wdt} is always less than unity. The
-value has a similar behavior to the fast group infinite flux \gls{fom}
-ratio, but inverted. The slow group shows consistent improvement, but
-with no meaningful trend. the peak improvement occurs with full
+fast group when using \gls{wdt} is always less than unity. The FOM ratio behavior for this quantity is inverted compared to the fast group infinite flux \gls{fom}
+ratio. The thermal group shows consistent improvement with increased \gls{wdt}, but
+with no meaningful trend. The peak improvement occurs with full
 \gls{wdt}, $t_{\mathrm{wdt}} = 1.0$, as with the infinite flux.
 
 \begin{table}[hbtp]
   \centering
   \caption[$\overline{\mathrm{FOM}}$ and ratio for
-  the \acrshort{pwr} pin cell infinite total cross-section.]{$\overline{\mathrm{FOM}}$ as a function of
+  the \acrshort{pwr} pin cell \textit{infinite total cross-section}.]{$\overline{\mathrm{FOM}}$ as a function of
     $t_{\mathrm{wdt}}$ and the ratio of values to the base case for
-    the \gls{pwr} pin cell infinite total cross-section.}
-  \begin{tabular}{cc} Fast group ($E > 0.0625$) & Slow group \\
+    the \gls{pwr} pin cell \textit{infinite total cross-section}.}
+  \begin{tabular}{cc} Fast group ($E > 0.0625$) & thermal group \\
 \begin{tabular}{lrr}
 \toprule
 $t_{\mathrm{wdt}}$ &                   $\overline{\mathrm{FOM}}$ & Ratio\\
@@ -407,9 +407,9 @@ $t_{\mathrm{wdt}}$ &                   $\overline{\mathrm{FOM}}$ &
   \includegraphics[scale=0.9]{images/results/pwr_inf_tot_grp_2} \\
     (b) 
   \end{tabular}
-  \caption[Figure of merit ratio of the infinite total cross-section for the
-  PWR]{Figure of merit ratio of the infinite total cross-section for the PWR vs the
-    \gls{wdt} threshold for the (a) high and (b) low energy
+  \caption[Figure of merit ratio of the \textit{infinite total cross-section} for the
+  PWR]{Figure of merit ratio of the \textit{infinite total cross-section} for the PWR vs the
+    \gls{wdt} threshold for the (a) fast and (b) thermal energy
     groups. The group boundary is at $0.0625$ eV. \gls{fom} is
     calculated using the last 20 data points.}
   \label{fig:pwr_inf_tot}
@@ -419,10 +419,11 @@ $t_{\mathrm{wdt}}$ &                   $\overline{\mathrm{FOM}}$ &
 \label{sec:pwr_inf_total}
 
 For the two-group case, the scattering matrices for the zeroth
-moments $S_0$ is $2 \times 2$. A summary of the \gls{fom} ratio
-for the zeroth moment $S_0$ is shown in Table~\ref{tab:pwr_inf_sp0}. The
+moment, $S_0$, is $2 \times 2$. A summary of the \gls{fom} ratio
+for $S_0$ is shown in Table~\ref{tab:pwr_inf_sp0}. The
 tables are for the entry in row $g$ and column $g'$, which represents
 scattering from group $g'$ into group $g$, indicated as $g' \to g$.
+% reference to figure?
 
 The \gls{wdt} method under-performs in most cases, except the
 inscattering cross-section for the thermal group. 
@@ -430,9 +431,9 @@ inscattering cross-section for the thermal group.
 \begin{table}[hbtp]
   \centering
   \caption[$\overline{\mathrm{FOM}}$ and ratio for
-  the \acrshort{pwr} pin cell infinite $S_0$ scattering matrix.]{$\overline{\mathrm{FOM}}$ as a function of
+  the \acrshort{pwr} pin cell \textit{infinite $S_0$ scattering matrix}.]{$\overline{\mathrm{FOM}}$ as a function of
     $t_{\mathrm{wdt}}$ and the ratio of values to the base case for
-    the \gls{pwr} pin cell infinite $S_0$ scattering matrix}
+    the \gls{pwr} pin cell \textit{infinite $S_0$ scattering matrix}}
 
   \begin{tabular}{cc} $\Sigma_{1\to 1}$ & $\Sigma_{2 \to 1}$ \\
 \begin{tabular}{lrr}
@@ -600,9 +601,9 @@ $t_{\mathrm{wdt}}$ &                   $\overline{\mathrm{FOM}}$ &
   \includegraphics[scale=0.6]{images/results/pwr_inf_sp0_grp_4} \\
     (c) & (d)
   \end{tabular}
-  \caption[Figure of merit ratio of the infinite zeroth-moment of the
-  scattering cross-section for the PWR]{Figure of merit ratio of the
-    infinite zeroth-moment of the scattering cross-section $S_0$ for
+  \caption[Figure of merit ratio of the \textit{infinite zeroth-moment of the
+  scattering cross-section} for the PWR]{Figure of merit ratio of the
+    \textit{infinite zeroth-moment of the scattering cross-section} $S_0$ for
     the PWR vs the \gls{wdt} threshold for the (a) $\Sigma_{1 \to
       1}$, (b) $\Sigma_{2 \to 1}$, (c) $\Sigma_{1 \to 2}$ and (d)
     $\Sigma_{2 \to 2}$ entries. The group boundary is at $0.0625$ eV. \gls{fom} is
@@ -610,6 +611,7 @@ $t_{\mathrm{wdt}}$ &                   $\overline{\mathrm{FOM}}$ &
   \label{fig:pwr_inf_sp0}
 \end{figure}
 \newpage
+% I think italicizing which thing you're talking about in the captions helps make it easier to see what is what--please do for remainder if you agree. 
 \subsection{Discussion}
 \label{sec:pwr_discussion}
 
@@ -620,8 +622,11 @@ improvement or parity in infinite flux for both groups across all values of
 $t_\mathrm{wdt}$. Therefore, we should look to other parameters to
 determine a useful value of $t_{\mathrm{wdt}}$.
 
-The infinite total cross-section for the slow group is similarly
-improved, but the fast group data show a consistent under performance
+The infinite total cross-section for the thermal group is similarly
+improved,
+% similarly to infinite flux? unclear
+
+ but the fast group data show a consistent under performance
 as shown in Fig.~\ref{fig:pwr_inf_tot} and
 Tab.~\ref{tab:pwr_inf_tot}. Values of $t_{\mathrm{wdt}} \geq 0.5$
 result in the largest reduction, these values have a mean \gls{fom}
@@ -630,7 +635,7 @@ a mean \gls{fom} ratio of 0.92.
 
 We see a similar pattern in the entries in the scattering matrix, as
 shown in Fig.~\ref{fig:pwr_inf_sp0} and
-Tab.~\ref{tab:pwr_inf_sp0}. The slow-group inscattering cross-section
+Tab.~\ref{tab:pwr_inf_sp0}. The thermal-group inscattering cross-section
 has a consistent improvement, while the fast group underperforms. For
 the fast group scattering into either group, as with infinite total
 cross-section, there are two domains. When
@@ -641,7 +646,7 @@ cross-section. For the upscattering cross-section $\Sigma_{2 \to 1}$,
 two values within this range return an improvement in \gls{fom} ratio,
 $t_\mathrm{wdt} = 0.3, 0.4$.
 
-Overall the ratio data indicate that a \gls{wdt} threshold of
+Overall, the ratio data indicate that a \gls{wdt} threshold of
 $t_{\mathrm{wdt}} = 0.3$ or $t_{\mathrm{wdt}} = 0.4$ provides an
 improvement in the statistics for thermal neutrons, without much loss
 of statistics elsewhere. The final \gls{fom} ratios for these values
@@ -688,9 +693,11 @@ statistics without causing a significant impact on the fast group.
 
 We adapted the fast reactor pin cell from another example provided in
 the Serpent validation files~\cite{serpent_web}. This is a lead cooled
-pin cell with \gls{mox} fuel containing Uranium, Plutonium and a small
-amount of Americium. The cladding is stainless steel. The lattice is
-hexagonal, and has reflective boundary conditions. As with the
+pin cell with \gls{mox} fuel containing uranium, plutonium and a small
+amount of americium. 
+% how much? the enrichment and relatively amounts are probably needed here.
+The cladding is stainless steel. The lattice is
+hexagonal and has reflective boundary conditions. As with the
 \gls{pwr} pin cell, we ran the simulation with two energy
 groups with the group boundary at 0.625 eV.
 
@@ -721,12 +728,18 @@ A summary of the \gls{fom} ratio,
 $\overline{\mathrm{FOM}}(t_{\mathrm{wdt}})$, for the fast reactor pin
 cell for infinite flux ($\phi_{\infty}$) is shown in Tab.~\ref{tab:fast_inf_flx} and
 shown graphically in Fig.~\ref{fig:fast_inf_flx}. The \gls{fom} ratio
-group 1 is consistently higher; for group 2 the \gls{fom} values are
-very low, so the ratios are not as useful. Although there appears to
+for group 1 is consistently higher; for group 2 the \gls{fom} values are
+very low, so the ratios are not as useful. 
+% is the ratio not useful, or the method?
+Although there appears to
 be a high ratio (3.140) at the threshold value $t_{\mathrm{wdt}}
 =0.4$, this merely reflects the poor statistics. As seen in
 Fig.~\ref{fig:fast_inf_flx_example}, the \gls{fom} is not converging
 to a single value as shown earlier.
+% what is this shown earlier referring to?
+% may also want to comment that in a fast system it (a) isn't surprising that
+% the thermal group is underpopulated (poor statistics) and (b) that we probably
+% don't care about that. 
 \begin{table}[hbtp]
   \centering
   \caption[$\overline{\mathrm{FOM}}$ and ratio for
@@ -748,9 +761,10 @@ to a single value as shown earlier.
   \includegraphics[scale=0.9]{images/results/fast_inf_flx_grp_2} \\
     (b) 
   \end{tabular}
+% Just noticed this: number if significant digits on the FOMs and ratios provided, are they all meaningful?
   \caption[Figure of merit ratio of the infinite flux for the
   PWR]{Figure of merit ratio of the infinite flux for the fast pin cell vs the
-    \gls{wdt} threshold for the (a) high and (b) low energy
+    \gls{wdt} threshold for the (a) fast and (b) thermal energy
     groups. The group boundary is at $0.0625$ eV. \gls{fom} is
     calculated using the last 20 data points.}
   \label{fig:fast_inf_flx}
@@ -761,7 +775,7 @@ to a single value as shown earlier.
   \caption[\Acrshort{fom} convergence for $\phi_{\infty}$ for the base
   and $t_{\mathrm{wdt}} = 0.4$ case for group 2.]{\Acrshort{fom} convergence for
     $\phi_{\infty}$ the base and $t_{\mathrm{wdt}} = 0.4$ case for
-    group 2.}
+    group 2 in the fast pin cell.}
   \label{fig:fast_inf_flx_example}
 \end{figure}
 
@@ -772,7 +786,7 @@ $\overline{\mathrm{FOM}}(t_{\mathrm{wdt}})$, for the fast reactor pin
 cell for infinite total cross-section ($\Sigma_{t,
   \infty}$) is shown in Tab.~\ref{tab:fast_inf_tot} and shown
 graphically in Fig.~\ref{fig:fast_inf_tot}. The \gls{fom} ratio for
-group 1 is higher for all values of $t_{\mathrm{wdt}}$ with the
+group 1 is higher for all values of $t_{\mathrm{wdt}}$, with the
 exception of 0.2. For group 2, as seen in Sec.~\ref{sec:fast_inf_flx}, the
 \gls{fom} values are very low, and one ratio is artificially inflated
 when $t_{\mathrm{wdt}} = 0.6$
@@ -804,7 +818,7 @@ enough value to be significant.
   \caption[Figure of merit ratio of the $\Sigma_{t,\infty}$ for the
   fast reactor pin cell]{Figure of merit ratio of
     $\Sigma_{t,\infty}$ for the fast reactor pin cell vs the \gls{wdt}
-    threshold for (a) group 1 and (b) group 2. The group
+    threshold for (a) fast and (b) thermal groups. The group
     boundary is at $0.0625$ eV. \gls{fom} is calculated using the last
     20 data points.}
   \label{fig:fast_inf_tot}
@@ -813,16 +827,15 @@ enough value to be significant.
   \centering
   \includegraphics[scale=0.5]{images/results/fast_inf_tot_example}
   \caption[\Acrshort{fom} convergence for $\Sigma_{t,\infty}$ the base
-  and $t_{\mathrm{wdt}} = 0.6$ case.]{\Acrshort{fom} convergence for
-    $\Sigma_{t,\infty}$ the base and $t_{\mathrm{wdt}} = 0.6$ case.}
+  and $t_{\mathrm{wdt}} = 0.6$ case in the fast pin cell.]{\Acrshort{fom} convergence for
+    $\Sigma_{t,\infty}$ the base and $t_{\mathrm{wdt}} = 0.6$ case in the fast pin cell.}
   \label{fig:fast_inf_tot_example}
 \end{figure}
 
 \subsection{Scattering Matrices}
 \label{sec:fast_inf_sp0}
 
-For the two-group case, the scattering matrices for the zeroth
-moments $S_0$ is $2 \times 2$. A summary of the \gls{fom} ratio
+For the two-group case, the scattering matrices for $S_0$ is again $2 \times 2$. A summary of the \gls{fom} ratio
 for the zeroth moment $S_0$ is shown in Table~\ref{tab:fast_inf_sp0}. The
 tables are for the entry in row $g$ and column $g'$, which represents
 scattering from group $g'$ into group $g$, indicated as $g' \to g$.
@@ -866,7 +879,7 @@ $\Sigma_{1\to 2}$ & $\Sigma_{2 \to 2}$ \\
 
 There is very little thermal flux in a fast reactor. This results in
 poor statistics for that group, a fact that \gls{wdt} does not
-remedy. As evidenced by the results presenting in this section, all
+remedy. As evidenced by the results presented in this section, all
 values of $t_{\mathrm{wdt}}$ continued to result in group 2 \gls{fom} orders
 of magnitude smaller than both group 1 for this problem, and either
 group for the \gls{pwr}.
@@ -878,6 +891,8 @@ and group 1 inscattering cross-section. This value represents the
 highest improvement in group 1, and the values are summarized in
 Tab.~\ref{tab:fast_discussion}. The values for group 2 are omitted as
 this value, like all others, did not result in meaningful improvement.
+% I know you can't turn this on for only one group. Do you have a sense of whether
+% the improvement in group 1 is more valuable than the detriment in group 2?
 
 \begin{table}[hbtp]
   \centering
@@ -899,7 +914,7 @@ this value, like all others, did not result in meaningful improvement.
 
 The third test case is derived from the \gls{treat} reactor at
 \gls{inl}. Work at \gls{inl} focuses on using deterministic solvers to
-model the core, the Serpent 2 Monte Carlo code is used to generate the
+model the core; the Serpent 2 Monte Carlo code is used to generate the
 cross-sections for these solvers. We used a homogenized fuel element
 that replicates the material but not geometry of the \gls{treat}
 fuel. The simulation uses eleven energy groups, which replicates the
@@ -929,6 +944,7 @@ summarized in Table.~\ref{tab:homog_energy}.
   \end{tabular}
   \label{tab:homog_energy}
 \end{table}
+
 To simplify the analysis, and to allow comparison between the other
 two test cases, these groups can be collapsed. The values we are
 considering, $\phi_{\infty}$, $\Sigma_{t,\infty}$, and the zeroth
@@ -938,11 +954,13 @@ get a total $\phi_{\infty}$ for the entire energy range. As there is
 no covariance, the variance of the sum will be the sum of the
 variance~\cite{taylor1997}. The variance for summing energy groups $g$ to $g'$ is therefore:
 \begin{equation*}
-  \mathrm{Var}\left( \sum_{j=g}^{g'}\phi_{g,\infty}\right) =   \sum_{j=g}^{g'}\mathrm{Var}\left(\phi_{g,\infty}\right)
+  \mathrm{Var}\left( \sum_{j=g}^{g'}\phi_{g,\infty}\right) =   \sum_{j=g}^{g'}\mathrm{Var}\left(\phi_{g,\infty}\right)\:.
 \end{equation*}
 This allows us to collapse groups one through six into a single group,
-hereafter denoted by an $f$ for fast and groups seven through eleven as
- a slow group, $s$. The boundary of group seven aligns with the separation
+hereafter denoted by an $f$ for fast, and groups seven through eleven as
+ a thermal group, $s$. 
+ % why s?
+ The boundary of group seven aligns with the separation
 of the two groups in the previous test problems, so we can compare the
 results in a more natural
 fashion. Fig.~\ref{fig:homog_fom_convergence_example} shows the
@@ -970,12 +988,12 @@ Fig.~\ref{fig:homog_inf_flx}. The Tables for all eleven of the
 original energy groups are included in
 App.~\ref{sec:homog_inf_flx_data}.
 
-As shown in both the table and graphically, we observe an improvement
+As shown in both the table and plot, we observe an improvement
 in \gls{fom} for \gls{wdt} threshold values
 $0.2 \leq t_{\mathrm{wdt}} \leq 0.6$ and $t_{\mathrm{wdt}} = 0.8, 1.0$ for
 the fast group. The improvement is moderate for this
 group, with a maximum improvement of 1.07 times the base case. The
-improvements are even slighter for the slow group, where we observe a
+improvements are even slighter for the thermal group, where we observe a
 maximum of 1.014 times the base case for $0.4 \leq t_{\mathrm{wdt}} 0.6$ and $t_{\mathrm{wdt}} = 1.0$.
 
 \begin{table}[hbtp]
@@ -984,7 +1002,7 @@ maximum of 1.014 times the base case for $0.4 \leq t_{\mathrm{wdt}} 0.6$ and $t_
     the homogenous fuel element infinite flux.]{$\overline{\mathrm{FOM}}$ as a function of
     $t_{\mathrm{wdt}}$ and the ratio of values to the base case for
     the homogenous fuel element infinite flux.}
-  \begin{tabular}{cc} Fast Group ($E > 0.0625$) & Slow Group \\
+  \begin{tabular}{cc} Fast Group ($E > 0.0625$) & Thermal Group \\
     \input{include/tables/homog_inf_flx_grp_comb1}
  &
    \input{include/tables/homog_inf_flx_grp_comb2}
@@ -1002,7 +1020,7 @@ maximum of 1.014 times the base case for $0.4 \leq t_{\mathrm{wdt}} 0.6$ and $t_
   \caption[Figure of merit ratio of the infinite flux for the
   homogeneous fuel element]{Figure of merit ratio of the infinite flux
     for the homogeneous fuel element vs the
-    \gls{wdt} threshold for the (a) fast and (b) slow 
+    \gls{wdt} threshold for the (a) fast and (b) thermal 
     groups. The group boundary is at $0.0625$ eV. \gls{fom} is
     calculated using the last 20 data points.}
   \label{fig:homog_inf_flx}
@@ -1028,7 +1046,7 @@ both groups at $t_{\mathrm{wdt}} = 0.7$.
     the homogeneous fuel element $\Sigma_{t,\infty}$.]{$\overline{\mathrm{FOM}}$ as a function of
     $t_{\mathrm{wdt}}$ and the ratio of values to the base case for
     the homogeneous fuel element $\Sigma_{t,\infty}$.}
-  \begin{tabular}{cc} Fast group ($E > 0.0625$) & Slow group \\
+  \begin{tabular}{cc} Fast group ($E > 0.0625$) & Thermal group \\
     \input{include/tables/homog_inf_tot_grp_comb1}
  &
    \input{include/tables/homog_inf_tot_grp_comb2}
@@ -1046,7 +1064,7 @@ both groups at $t_{\mathrm{wdt}} = 0.7$.
   \caption[Figure of merit ratio of the $\Sigma_{t,\infty}$ for the
   homogeneous fuel element]{Figure of merit ratio of
     $\Sigma_{t,\infty}$ for the homogeneous fuel element vs the \gls{wdt}
-    threshold for (a) fast group and (b) slow group. The group
+    threshold for (a) fast group and (b) thermal group. The group
     boundary is at $0.0625$ eV. \gls{fom} is calculated using the last
     20 data points.}
   \label{fig:homog_inf_tot}
@@ -1056,7 +1074,7 @@ both groups at $t_{\mathrm{wdt}} = 0.7$.
 \label{sec:homog_inf_sp0}
 
 For the eleven-group case, the scattering matrices for the zeroth
-moments $S_0$ is $11 \times 11$. All the tables showing the \gls{fom}
+moment is $11 \times 11$. All the tables showing the \gls{fom}
 ratios for each value of the \gls{wdt} threshold are shown in
 App.~\ref{sec:homog_inf_sp0_raw}. The tables are for the entry in row $g$
 and column $g'$, which represents scattering from group $g'$ into
@@ -1091,9 +1109,9 @@ improvement is higher in lower values of $t_{\mathrm{wdt}}$.
 There is no clear \gls{wdt} threshold value that creates an overall
 improvement in the parameters we studied. The results of the infinite
 flux show an improvement in most cases for the fast flux, and a
-moderate improvement for slow flux for $0.4 \leq t_{\mathrm{wdt}} \leq
+moderate improvement for thermal flux, for $0.4 \leq t_{\mathrm{wdt}} \leq
 0.6$ and unity. For the infinite total cross-section, improvement in
-the slow group only occurs for two values, $t_{\mathrm{wdt}} = 0.7,
+the thermal group only occurs for two values, $t_{\mathrm{wdt}} = 0.7,
 1.0$. We also observe improvement in the fast group total
 cross-section for $t_{\mathrm{wdt}} = 0.7$. The scattering matrices
 show similar patterns for all values of the \gls{wdt} threshold. The
