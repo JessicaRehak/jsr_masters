@@ -16,24 +16,31 @@ and the results of those test cases.
 \subsection{Figure of Merit}
 \label{sec:fom}
 
-Monte Carlo codes such as Serpent 2 run many batches of a single
+Monte Carlo codes such as Serpent 2 run many iterations of a single
 simulation, calculating the mean of values of interest $\hat{x}$
-across many runs. 
+across many runs. All calculations done in this study were criticality
+source calculations. For these types of calculations in Serpent 2,
+source neutrons are run in cycles. Each cycle contains the same number
+of source neutrons, and the source distribution is determined by the
+previous cycle~\cite{jaakko2015}.
 % does serpent use batches if fission isn't involved? 
 % maybe define a batch?
 % is this across many batches, or many simulated particles?
-By the central limit theorem, we know that the
-means across many simulations will form a normal distribution with
-variance $\sigma^2(\hat{x})$. We are interested in reducing the
-variance of the final value, which will provide more confidence in the
-simulation results. In general, running the simulation more times will
-reduce this variance at the cost of requiring more computation
-time. The variance is proportional to the number of cycles $n$:
+By the central limit theorem, we know that the means across these many
+simulations will form a normal distribution with variance
+$\sigma^2(\hat{x})$. We are interested in reducing the variance of the
+final value, which will provide more confidence in the simulation
+results. In general, running the simulation more times with more
+particle histories will reduce this variance at the cost of requiring
+more computation time. The variance depends on the number of
+particle histories, which is proportional to the number of cycles $n$:
 % Is this cycles, or number of particles? How is that related to batches?
 \begin{equation}
 \label{eq:variance}
   \sigma^2(\hat{x}) \propto \frac{1}{n}\:.
 \end{equation}
+Cycles will be used in this report in the place of particle histories
+because this value is easily drawn from the Serpent 2 output files.
 
 Serpent 2 reports the standard deviation of the mean,
 $\sigma(\hat{x})$, which is proportional to $n^{-1/2}$. The standard deviation
@@ -44,20 +51,29 @@ a log-log plot. As expected, we see a linear evolution with a slope of
   \centering
   \includegraphics[scale=0.5]{images/error_convergence}
   \caption[Variance in $\phi_{\infty}$ for the fast-neutron group as a
-    function of Serpent 2 cycle.]{Variance in $\phi_{\infty}$ for the fast-neutron group as a
-    function of Serpent 2 cycle, with \gls{wdt} threshold of 0.2.}
+  function of Serpent 2 cycle.]{Variance in the infinite flux
+    $\phi_{\infty}$ for the fast-neutron group as a function of
+    Serpent 2 cycle, with \gls{wdt} threshold of 0.2.}
   \label{fig:error_convergence}
 \end{figure}
 % you haven't defined \phi_{\infty}
-We can always reduce the variance by running the simulation longer; a
+Per the central limit theorem and Eq.~\eqref{eq:variance}, we can
+always continue running more cycles to improve the variance. A more
+efficient simulation should provide better statistics, resulting in a
+lower variance in less time. The variance is therefore dependent on
+two things: the number of cycles we run, and the efficiency of our
+algorithm. 
+
 % longer, or with more particles/cycles?
 % I think this section needs a cleanup on precision of word choice about all of this. 
-measure of our simulation quality, therefore, should be independent of
-cycles. 
 
-We establish a \gls{fom} that is independent of $n$.  The
-standard \gls{fom} used by most simulations, described by Lewis and
-Miller~\cite{lewis1993}, is shown in Eq.~\eqref{eq:fom}:
+For this study, we are interested in the efficiency of the \gls{wdt}
+algorithm. We therefore need to establish a standard measuring device,
+a \gls{fom}, that is independent of the number of cycles, $n$. This
+will then allow us to utilize the variance to directly measure of the
+efficiency of our algorithm. The standard \gls{fom} used by most
+simulations, described by Lewis and Miller~\cite{lewis1993}, is shown
+in Eq.~\eqref{eq:fom}:
 \begin{equation}
   \label{eq:fom}
   \mathrm{FOM} = \frac{1}{\sigma(\hat{x})^2T}\:,
@@ -87,11 +103,10 @@ As discussed in the previous section, the \gls{fom} should be
 independent of cycle number $n$. In reality, it takes enough cycles
 for good statistics to develop for the \gls{fom} to converge to its
 final value. As seen in Fig.~\ref{fig:fom_convergence}, the \gls{fom}
-begins to converge around $1\times 10^4$ cycles in this example. Statistical
-variations in the standard deviation seen in
-Fig.~\ref{fig:error_convergence} are amplified by squaring and
-inverting to calculate \gls{fom}. 
-% why are we inverting and squaring the fom? how is that related to this plot?
+begins to converge around $1\times 10^4$ cycles in this example. 
+% why are we inverting and squaring the fom? how is that related to
+% this plot? 
+% Sentence removed, it explained nothing and just confused things-JSR
 It may take many cycles for the
 \gls{fom} to converge to a single value. Therefore, we calculate an
 average value using a selected number of the final data points.
@@ -131,7 +146,9 @@ developed a python package, \verb|WDT_Analysis|.
 
 As described above, we modified the Serpent 2 source code to generate
 uniquely named output files at various cycle values. The
-\verb|WDT_Analysis| package leverages python's object oriented
+\verb|WDT_Analysis| package\footnote{Available on GitHub
+  \url{https://github.com/jsrehak/WDT_Analysis}} leverages python's
+object oriented
 % I'd maybe include a footnote with a link to the github, or something like that
 % Whatever is the best way for someone to be able to find the package documentation.
 programming structure to enable easy analysis of the data. We utilize
@@ -274,9 +291,13 @@ Pitch              & 1.33          \\ \bottomrule
   \label{fig:pwr}
 \end{figure}
 \subsection{Infinite Flux}
-A summary of the \gls{fom} ratio,
+A summary of the \gls{fom} ratio and
 $\overline{\mathrm{FOM}}(t_{\mathrm{wdt}})$, for the \gls{pwr} pin
-% I thought the ratio was R, and that \overline{\mathrm{FOM}}(t_{\mathrm{wdt}}) was an average, not a ratio?
+% I thought the ratio was R, and that
+% \overline{\mathrm{FOM}}(t_{\mathrm{wdt}}) was an average, not a
+% ratio?
+% Changed it to "and", was referencing the two things shown on the
+% table -jsr
 cell for infinite flux ($\phi_{\infty}$) is shown in Tab.~\ref{tab:pwr_inf_flx} and
 shown graphically in Fig.~\ref{fig:pwr_inf_flx}.
 \begin{table}[hbtp]
@@ -346,7 +367,7 @@ behavior is not observed in the thermal group \gls{fom} ratio.
 
 \subsection{Infinite Total Cross-section}
 \label{sec:pwr_inf_total}
-A summary of the \gls{fom} ratio,
+A summary of the \gls{fom} ratio and
 $\overline{\mathrm{FOM}}(t_{\mathrm{wdt}})$, for the \gls{pwr} pin
 cell for infinite total cross-section ($\Sigma_{t,
   \infty}$) is shown in Tab.~\ref{tab:pwr_inf_tot} and shown
@@ -422,7 +443,8 @@ For the two-group case, the scattering matrices for the zeroth
 moment, $S_0$, is $2 \times 2$. A summary of the \gls{fom} ratio
 for $S_0$ is shown in Table~\ref{tab:pwr_inf_sp0}. The
 tables are for the entry in row $g$ and column $g'$, which represents
-scattering from group $g'$ into group $g$, indicated as $g' \to g$.
+scattering from group $g'$ into group $g$, indicated as $g' \to
+g$. The \gls{fom} ratios are shown graphically in Fig.~\ref{fig:pwr_inf_sp0}.
 % reference to figure?
 
 The \gls{wdt} method under-performs in most cases, except the
@@ -611,7 +633,11 @@ $t_{\mathrm{wdt}}$ &                   $\overline{\mathrm{FOM}}$ &
   \label{fig:pwr_inf_sp0}
 \end{figure}
 \newpage
-% I think italicizing which thing you're talking about in the captions helps make it easier to see what is what--please do for remainder if you agree. 
+% I think italicizing which thing you're talking about in the captions
+% helps make it easier to see what is what--please do for remainder if
+% you agree. 
+%
+% Agreed -jsr
 \subsection{Discussion}
 \label{sec:pwr_discussion}
 
@@ -622,11 +648,10 @@ improvement or parity in infinite flux for both groups across all values of
 $t_\mathrm{wdt}$. Therefore, we should look to other parameters to
 determine a useful value of $t_{\mathrm{wdt}}$.
 
-The infinite total cross-section for the thermal group is similarly
-improved,
+The infinite total cross-section for the thermal group shows a similar
+improvement to the infinite flux
 % similarly to infinite flux? unclear
-
- but the fast group data show a consistent under performance
+but the fast group data show a consistent under performance
 as shown in Fig.~\ref{fig:pwr_inf_tot} and
 Tab.~\ref{tab:pwr_inf_tot}. Values of $t_{\mathrm{wdt}} \geq 0.5$
 result in the largest reduction, these values have a mean \gls{fom}
@@ -694,12 +719,31 @@ statistics without causing a significant impact on the fast group.
 We adapted the fast reactor pin cell from another example provided in
 the Serpent validation files~\cite{serpent_web}. This is a lead cooled
 pin cell with \gls{mox} fuel containing uranium, plutonium and a small
-amount of americium. 
+amount of americium. The relative isotope amounts are shown in Tab.~\ref{tab:fast_fuel}.
 % how much? the enrichment and relatively amounts are probably needed here.
 The cladding is stainless steel. The lattice is
 hexagonal and has reflective boundary conditions. As with the
 \gls{pwr} pin cell, we ran the simulation with two energy
 groups with the group boundary at 0.625 eV.
+
+\begin{table}[hbtp]
+  \caption{Relative atomic density of the fast reactor pin cell \acrshort{mox}
+    fuel.}
+  \centering
+  \begin{tabular}{cr}\toprule
+    Isotope & Relative Atomic Density \\ \midrule
+    \ele{U}{238} & 1.00 \\
+    \ele{Pu}{239} & 0.16 \\
+    \ele{Pu}{240} & 7.40 $\times 10^{-2}$ \\
+    \ele{Pu}{242} & 2.09 $\times 10^{-2}$ \\
+    \ele{Pu}{238} & 6.45 $\times 10^{-3}$ \\
+    \ele{U}{235} & 4.11 $\times 10^{-3}$ \\
+    \ele{Am}{241} & 3.57 $\times 10^{-3}$ \\
+    \ele{U}{236} & 1.00 $\times 10^{-4}$ \\
+    \ele{U}{234} & 3.01 $\times 10^{-5}$ \\ \bottomrule
+  \end{tabular}
+  \label{tab:fast_fuel}
+\end{table}
 
 \begin{figure}[hbtp]
   \centering
@@ -724,18 +768,23 @@ Pitch              & 1.789          \\ \bottomrule
 
 \subsection{Infinite flux}
 \label{sec:fast_inf_flx}
-A summary of the \gls{fom} ratio,
+A summary of the \gls{fom} ratio and
 $\overline{\mathrm{FOM}}(t_{\mathrm{wdt}})$, for the fast reactor pin
 cell for infinite flux ($\phi_{\infty}$) is shown in Tab.~\ref{tab:fast_inf_flx} and
 shown graphically in Fig.~\ref{fig:fast_inf_flx}. The \gls{fom} ratio
 for group 1 is consistently higher; for group 2 the \gls{fom} values are
-very low, so the ratios are not as useful. 
+very low.
 % is the ratio not useful, or the method?
+% Both, removed, as I think it is more clearly explained by the
+% additions in the next section.
 Although there appears to
 be a high ratio (3.140) at the threshold value $t_{\mathrm{wdt}}
 =0.4$, this merely reflects the poor statistics. As seen in
 Fig.~\ref{fig:fast_inf_flx_example}, the \gls{fom} is not converging
-to a single value as shown earlier.
+to a single value. We expect the thermal group to be underpopulated in
+a fast reactor, resulting in poor statistics. The \gls{wdt} method
+does not improve this, but the statistics of the thermal group is of
+minimal interest in a fast reactor. 
 % what is this shown earlier referring to?
 % may also want to comment that in a fast system it (a) isn't surprising that
 % the thermal group is underpopulated (poor statistics) and (b) that we probably
@@ -743,9 +792,9 @@ to a single value as shown earlier.
 \begin{table}[hbtp]
   \centering
   \caption[$\overline{\mathrm{FOM}}$ and ratio for
-    the fast pin cell infinite flux.]{$\overline{\mathrm{FOM}}$ as a function of
+    the fast pin cell \textit{infinite flux}.]{$\overline{\mathrm{FOM}}$ as a function of
     $t_{\mathrm{wdt}}$ and the ratio of values to the base case for
-    the fast pin cell infinite flux.}
+    the fast pin cell \textit{infinite flux}.}
   \begin{tabular}{cc} Group 1 ($E > 0.0625$) & Group 2 \\
     \input{include/tables/fast_inf_flx_grp_1}
  &
@@ -762,8 +811,8 @@ to a single value as shown earlier.
     (b) 
   \end{tabular}
 % Just noticed this: number if significant digits on the FOMs and ratios provided, are they all meaningful?
-  \caption[Figure of merit ratio of the infinite flux for the
-  PWR]{Figure of merit ratio of the infinite flux for the fast pin cell vs the
+  \caption[Figure of merit ratio of the \textit{infinte flux} for the
+  PWR]{Figure of merit ratio of the \textit{infinte flux} for the fast pin cell vs the
     \gls{wdt} threshold for the (a) fast and (b) thermal energy
     groups. The group boundary is at $0.0625$ eV. \gls{fom} is
     calculated using the last 20 data points.}
@@ -772,16 +821,16 @@ to a single value as shown earlier.
 \begin{figure}[hbtp]
   \centering
   \includegraphics[scale=0.5]{images/results/fast_inf_flx_example}
-  \caption[\Acrshort{fom} convergence for $\phi_{\infty}$ for the base
+  \caption[\Acrshort{fom} convergence for \textit{infinite flux} for the base
   and $t_{\mathrm{wdt}} = 0.4$ case for group 2.]{\Acrshort{fom} convergence for
-    $\phi_{\infty}$ the base and $t_{\mathrm{wdt}} = 0.4$ case for
+    \textit{infinite flux} the base and $t_{\mathrm{wdt}} = 0.4$ case for
     group 2 in the fast pin cell.}
   \label{fig:fast_inf_flx_example}
 \end{figure}
 
 \subsection{Infinite total cross-section}
 \label{sec:fast_inf_tot_cross_section}
-A summary of the \gls{fom} ratio,
+A summary of the \gls{fom} ratio and
 $\overline{\mathrm{FOM}}(t_{\mathrm{wdt}})$, for the fast reactor pin
 cell for infinite total cross-section ($\Sigma_{t,
   \infty}$) is shown in Tab.~\ref{tab:fast_inf_tot} and shown
@@ -797,9 +846,9 @@ enough value to be significant.
 \begin{table}[hbtp]
   \centering
   \caption[$\overline{\mathrm{FOM}}$ and ratio for
-    the fast reactor pin cell $\Sigma_{t,\infty}$.]{$\overline{\mathrm{FOM}}$ as a function of
+  the fast reactor pin cell \textit{infinite total cross-section}.]{$\overline{\mathrm{FOM}}$ as a function of
     $t_{\mathrm{wdt}}$ and the ratio of values to the base case for
-    the fast reactor pin cell $\Sigma_{t,\infty}$.}
+    the fast reactor pin cell \textit{infinite total cross-section}.}
   \begin{tabular}{cc} Group 1 ($E > 0.0625$) & Group 2 \\
     \input{include/tables/fast_inf_tot_grp_1}
  &
@@ -813,11 +862,11 @@ enough value to be significant.
   \includegraphics[scale=0.9]{images/results/fast_inf_tot_grp_1} \\
     (a) \\
   \includegraphics[scale=0.9]{images/results/fast_inf_tot_grp_2} \\
-    (b) 
+    (b)
   \end{tabular}
-  \caption[Figure of merit ratio of the $\Sigma_{t,\infty}$ for the
+  \caption[Figure of merit ratio of the  \textit{infinite total cross-section} for the
   fast reactor pin cell]{Figure of merit ratio of
-    $\Sigma_{t,\infty}$ for the fast reactor pin cell vs the \gls{wdt}
+     \textit{infinite total cross-section} for the fast reactor pin cell vs the \gls{wdt}
     threshold for (a) fast and (b) thermal groups. The group
     boundary is at $0.0625$ eV. \gls{fom} is calculated using the last
     20 data points.}
@@ -826,9 +875,9 @@ enough value to be significant.
 \begin{figure}[hbtp]
   \centering
   \includegraphics[scale=0.5]{images/results/fast_inf_tot_example}
-  \caption[\Acrshort{fom} convergence for $\Sigma_{t,\infty}$ the base
+  \caption[\Acrshort{fom} convergence for  \textit{infinite total cross-section} the base
   and $t_{\mathrm{wdt}} = 0.6$ case in the fast pin cell.]{\Acrshort{fom} convergence for
-    $\Sigma_{t,\infty}$ the base and $t_{\mathrm{wdt}} = 0.6$ case in the fast pin cell.}
+     \textit{infinite total cross-section} the base and $t_{\mathrm{wdt}} = 0.6$ case in the fast pin cell.}
   \label{fig:fast_inf_tot_example}
 \end{figure}
 
@@ -850,9 +899,9 @@ parity for $t_{\mathrm{wdt}} = 0.2$.
 \begin{table}[hbtp]
   \centering
   \caption[$\overline{\mathrm{FOM}}$ and ratio for
-  the fast reactor pin cell infinite $S_0$ scattering matrix.]{$\overline{\mathrm{FOM}}$ as a function of
+  the fast reactor pin cell \textit{infinite zeroth-moment of the scattering matrix}.]{$\overline{\mathrm{FOM}}$ as a function of
     $t_{\mathrm{wdt}}$ and the ratio of values to the base case for
-    the fast reactor pin cell infinite $S_0$ scattering matrix}
+    the fast reactor pin cell \textit{infinite zeroth-moment of the scattering matrix}}
   \begin{tabular}{cc} $\Sigma_{1\to 1}$ & $\Sigma_{2 \to 1}$ \\
 \input{include/tables/fast_inf_sp0_grp_1} & 
 \input{include/tables/fast_inf_sp0_grp_2} \\
@@ -907,7 +956,6 @@ this value, like all others, did not result in meaningful improvement.
   \label{tab:fast_discussion}
 \end{table}
 
-
 \newpage
 \section{Homogenous fuel element}
 \label{sec:homog}
@@ -958,9 +1006,7 @@ variance~\cite{taylor1997}. The variance for summing energy groups $g$ to $g'$ i
 \end{equation*}
 This allows us to collapse groups one through six into a single group,
 hereafter denoted by an $f$ for fast, and groups seven through eleven as
- a thermal group, $s$. 
- % why s?
- The boundary of group seven aligns with the separation
+ a thermal group, $t$. The boundary of group seven aligns with the separation
 of the two groups in the previous test problems, so we can compare the
 results in a more natural
 fashion. Fig.~\ref{fig:homog_fom_convergence_example} shows the
@@ -971,7 +1017,7 @@ groups.
 \begin{figure}[hbtp]
   \centering
   \includegraphics[scale=0.5]{images/homog_fom_convergence_example}
-  \caption{Convergence of $\phi_{\infty}$ for the combined fast group
+  \caption{Convergence of \textit{infinite flux} for the combined fast group
     for the homogenous fuel element for the base case
     $t_{\mathrm{wdt}} = 0.1$.}
   \label{fig:homog_fom_convergence_example}
@@ -980,7 +1026,7 @@ groups.
 \subsection{Infinite flux}
 \label{sec:homog_inf_flx}
 
-A summary of the \gls{fom} ratio,
+A summary of the \gls{fom} ratio and
 $\overline{\mathrm{FOM}}(t_{\mathrm{wdt}})$, for the homogenous fuel
 element for infinite flux ($\phi_{\infty}$) is shown in
 Tab.~\ref{tab:homog_inf_flx} and shown graphically in
@@ -999,9 +1045,9 @@ maximum of 1.014 times the base case for $0.4 \leq t_{\mathrm{wdt}} 0.6$ and $t_
 \begin{table}[hbtp]
   \centering
   \caption[$\overline{\mathrm{FOM}}$ and ratio for
-    the homogenous fuel element infinite flux.]{$\overline{\mathrm{FOM}}$ as a function of
+    the homogenous fuel element \textit{infinte flux}.]{$\overline{\mathrm{FOM}}$ as a function of
     $t_{\mathrm{wdt}}$ and the ratio of values to the base case for
-    the homogenous fuel element infinite flux.}
+    the homogenous fuel element \textit{infinte flux}.}
   \begin{tabular}{cc} Fast Group ($E > 0.0625$) & Thermal Group \\
     \input{include/tables/homog_inf_flx_grp_comb1}
  &
@@ -1017,8 +1063,8 @@ maximum of 1.014 times the base case for $0.4 \leq t_{\mathrm{wdt}} 0.6$ and $t_
   \includegraphics[scale=0.9]{images/results/homog_inf_flx_grp_comb2} \\
     (b) 
   \end{tabular}
-  \caption[Figure of merit ratio of the infinite flux for the
-  homogeneous fuel element]{Figure of merit ratio of the infinite flux
+  \caption[Figure of merit ratio of the \textit{infinte flux} for the
+  homogeneous fuel element]{Figure of merit ratio of the \textit{infinte flux}
     for the homogeneous fuel element vs the
     \gls{wdt} threshold for the (a) fast and (b) thermal 
     groups. The group boundary is at $0.0625$ eV. \gls{fom} is
@@ -1029,7 +1075,7 @@ maximum of 1.014 times the base case for $0.4 \leq t_{\mathrm{wdt}} 0.6$ and $t_
 \subsection{Infinite total cross-section}
 \label{sec:homog_inf_total}
 
-A summary of the \gls{fom} ratio,
+A summary of the \gls{fom} ratio and
 $\overline{\mathrm{FOM}}(t_{\mathrm{wdt}})$, for the homogeneous fuel element
  infinite total cross-section is shown in Tab.~\ref{tab:homog_inf_tot} and shown
 graphically in Fig.~\ref{fig:homog_inf_tot}. The full data for all
@@ -1043,9 +1089,9 @@ both groups at $t_{\mathrm{wdt}} = 0.7$.
 \begin{table}[hbtp]
   \centering
   \caption[$\overline{\mathrm{FOM}}$ and ratio for
-    the homogeneous fuel element $\Sigma_{t,\infty}$.]{$\overline{\mathrm{FOM}}$ as a function of
+    the homogeneous fuel element \textit{infinite total cross-section}.]{$\overline{\mathrm{FOM}}$ as a function of
     $t_{\mathrm{wdt}}$ and the ratio of values to the base case for
-    the homogeneous fuel element $\Sigma_{t,\infty}$.}
+    the homogeneous fuel element \textit{infinite total cross-section}.}
   \begin{tabular}{cc} Fast group ($E > 0.0625$) & Thermal group \\
     \input{include/tables/homog_inf_tot_grp_comb1}
  &
@@ -1061,9 +1107,9 @@ both groups at $t_{\mathrm{wdt}} = 0.7$.
   \includegraphics[scale=0.9]{images/results/homog_inf_tot_grp_comb2} \\
     (b) 
   \end{tabular}
-  \caption[Figure of merit ratio of the $\Sigma_{t,\infty}$ for the
+  \caption[Figure of merit ratio of the  \textit{infinite total cross-section} for the
   homogeneous fuel element]{Figure of merit ratio of
-    $\Sigma_{t,\infty}$ for the homogeneous fuel element vs the \gls{wdt}
+     \textit{infinite total cross-section} for the homogeneous fuel element vs the \gls{wdt}
     threshold for (a) fast group and (b) thermal group. The group
     boundary is at $0.0625$ eV. \gls{fom} is calculated using the last
     20 data points.}
@@ -1098,7 +1144,8 @@ improvement is higher in lower values of $t_{\mathrm{wdt}}$.
 \begin{figure}[hbtp]
   \centering
     \includegraphics[scale=0.75]{images/results/matshows/homog_sp0_matshow_1}
-  \caption{Matrix image for the zeroth scattering moment for the
+  \caption{Matrix image for the \textit{infinite zeroth-moment of the
+      scattering cross-section} for the
     homogeneous fuel element for $t_{\mathrm{wdt}} = 0.2$.}
   \label{fig:homog_inf_sp0_map}
 \end{figure}

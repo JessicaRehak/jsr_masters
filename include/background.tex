@@ -86,7 +86,10 @@ inverting the \gls{cdf}:
 \end{equation}
 We now have a direct way of using a random number generator to
 generate a randomly distributed variable $x$. We will now apply this
-to particle propagation.
+to particle propagation. There are methods available when the
+\gls{cdf} is not invertible. Each \gls{cdf} used for particle
+propagation is invertible, so these methods are outside the scope of
+discussion.
 % you may want to mention that there are many sampling techniques 
 % for when the CDF is not invertible and that those are outside the 
 % scope of this discussion.
@@ -136,6 +139,8 @@ distance:
   \label{eq:attenuation}
   \phi(s) = \phi_0 e^{-s\Sigma_t(\mathbf{r})}\:.
   % I don't think you defined \phi_{0}
+% It was defined just before the equation, should I make it more
+% explicit? -jsr
 \end{equation}
 The probability that a neutron has its first interaction in
 differential distance $ds$ after
@@ -234,7 +239,7 @@ one-dimensional region in Fig.~\ref{fig:sigma_maj}.
     region of interest and determines the probability of a real collision.}
   \label{fig:sigma_maj}
 \end{figure}
-% should y axis be \Sigma_{t} for clarity?
+% should y axis be \Sigma_{t} for clarity? Updated -jsr
 
 The majorant
 cross-section can also be represented as the summation of the total
@@ -293,7 +298,7 @@ in Fig.~\ref{fig:circle_square}.
 As described in the previous section, we could sample $f(x)$ using the
 $F(x)$ found by integrating and then inverting. Instead, we can sample from a
 different \gls{pdf} that is always majorant of $f(x)$, as defined in
-Eq.~\eqref{eq:Mleq}. We can choose $g(x) = 1$, as $f(x) \leq 1$ on
+Eq.~\eqref{eq:Mleq}. We can choose $g(x) = M = 1$, as $f(x) \leq 1$ on
 the interval of interest. The \gls{cdf} of $g(x)$ is easy to
 determine, because it is a constant value, and is just $G(x) =
 x$. Therefore, we can sample $g(x)$ by simply sampling a random value $\xi
@@ -301,13 +306,12 @@ x$. Therefore, we can sample $g(x)$ by simply sampling a random value $\xi
 from $f(x)$, we then sample another random value $\xi_2 \in (0,1]$ and
 accept our value of $x$ using the probability defined in Eq.~\eqref{eq:preal}:
 \begin{equation*}
-  \xi_2 \leq \frac{f(x)}{g(x)} = x^2\:.
+  \xi_2 \leq \frac{f(x)}{M \cdot g(x)} = x^2\:.
 \end{equation*}
 % may what to mention that M=1 in this case?
-
 \begin{minipage}{1.0\linewidth}
-Following this algorithm using the simple Matlab script:
-%incomplete sentence and paragraph...
+The following Matlab script replicates this procedure and generates
+the histogram shown in Fig.~\ref{fig:pdf_histogram}.
 \begin{lstlisting}
 a = [];                     % Accepted samples
 for i = 1:1000
@@ -319,11 +323,9 @@ for i = 1:1000
 end
 \end{lstlisting}
 \end{minipage}
-
-Generates the histogram shown in Fig.~\ref{fig:pdf_histogram}. As
-expected, the procedure has reproduced the desired \gls{pdf} of $f(x)
-= x^2$. Although this requires sampling two random variables, it can be
-advantageous if $F(x)$ is difficult or impossible to invert.
+As expected, the procedure has reproduced the desired \gls{pdf} of
+$f(x) = x^2$. Although this requires sampling two random variables, it
+can be advantageous if $F(x)$ is difficult or impossible to invert.
 \begin{figure}[hbtp]
   \centering
   \includegraphics[scale=0.75]{images/pdf_histogram}
@@ -360,6 +362,7 @@ cross-section:
 \end{equation}
 which samples the \gls{pdf} defined in Eq.\eqref{eq:majorantpdf}.
 % don't need to repeat equation; I think you mean this eqref?
+% Can you clarify this comment? -jsr
 We can see that this \gls{pdf} is the sum of two different ones: one
 representing actual collisions based on the real total cross-section
 $\Sigma_t$ and one representing the non-physical collisions based on
@@ -372,13 +375,14 @@ $g(x)$, as such:
   f(x) &= \Sigma_t(\vec{r})e^{-\Sigma_\mathrm{maj}s} \:,\\
   g(x) &= \Sigma_\mathrm{maj}e^{-\Sigma_\mathrm{maj}s}\:.
 \end{align*}
-We will therefore accept samples with the probability given
-in Eq.~\eqref{eq:preal}:
+The equation $g(x)$ is always majorant to $f(x)$, by the definition of
+$\Sigma_{\mathrm{maj}}$, so we set $M=1$. We will therefore accept samples with the
+probability given in Eq.~\eqref{eq:preal}:
 \begin{align}
   \label{eq:prealfinal}
-  P_{\mathrm{real}}(\vec{r}) &= \frac{f(x)}{Mg(x)} =
+  P_{\mathrm{real}}(\vec{r}) &= \frac{f(x)}{M \cdot g(x)} =
       \frac{\Sigma_t(\mathbf{r})e^{-\Sigma_\mathrm{maj}s}}{\Sigma_\mathrm{maj}e^{-\Sigma_\mathrm{maj}s}}
-  = \frac{\Sigma_t(\mathbf{r})}{\Sigma_\mathrm{maj}}
+  = \frac{\Sigma_t(\mathbf{r})}{\Sigma_\mathrm{maj}}\:.
 \end{align}
 % what's M?
 We will refer to this as the probability of a ``real'' collision,
@@ -416,27 +420,34 @@ Fig.~\ref{fig:dt}.
 
 Now, the path length can be sampled across multiple material regions
 of varying $\Sigma_t$ without explicitly stopping the neutron at a
-given boundary. 
-% I'd add a sentence about why this is important--make us see that this is a thing it is
+given boundary. This allows us to avoid determining the distance to
+the nearest boundary after each path length sampling. Delta-tracking
+is also much more efficient in regions where the geometry is complex
+or material region thicknesses are on the same order as the path
+length.% I'd add a sentence about why this is important--make us see that this is a thing it is
 % a good idea to choose sometimes; the imbalance in talking about the negative
 % properties leaves me wondering why anyone would choose it.
 This method can become computationally inefficient in
 regions where the total cross-section is much less than the majorant
 cross-section, leading to oversampling of virtual collisions. This is
 seen in geometries that include localized absorbers, such as control
-rods. 
+rods.
 
-Another downside is that the \gls{tle} for
-flux cannot be used. 
-% Apparently this isn't true. I didn't get the details, but this came up for Kelly at M&C
-% Check with her to see if she found the reference about it. 
-The \gls{tle} requires calculating the track-lengths
-within a particular material cell, and therefore does not work when
-the neutron path length can cross one or more material
-boundaries. The \gls{cfe} can be used in its
-place, but often results in inferior statistics as not every track
-length sampled ends in a collision~\cite{leppanen2013}.
-% May want to elaborate on all of this, but it'll likely change given previous comment. 
+% Another downside is that the \gls{tle} for
+% flux cannot be used. 
+% % Apparently this isn't true. I didn't get the details, but this came up for Kelly at M&C
+% % Check with her to see if she found the reference about it. 
+% The \gls{tle} requires calculating the track-lengths
+% within a particular material cell, and therefore does not work when
+% the neutron path length can cross one or more material
+% boundaries. The \gls{cfe} can be used in its
+% place, but often results in inferior statistics as not every track
+% length sampled ends in a collision~\cite{leppanen2013}.
+% % May want to elaborate on all of this, but it'll likely change
+% given previous comment. 
+%
+% I commented it out, I'll email Jaakko about his paper, which I use
+% as a reference for it. - JSR
 
 \section{The Serpent 2 Monte Carlo Code}
 \label{sec:serpent2}
@@ -462,49 +473,50 @@ If this inequality is true, delta-tracking is used, otherwise
 ray-tracing (referred to as surface-tracking in Serpent 2) is used. By
 default, the value of $c$ is 0.9, as this was determined to produce
 the best improvement in run time~\cite{leppanen2010}. We note that
-this inequality is identical to the value of $P_\mathrm{real}$, and
-this scheme is summarized in Fig.~\ref{fig:ray_wdt_normal}.  Prior to
+this inequality is identical to the value of $P_\mathrm{real}$. Prior to
 sampling path length, the code tests this ratio for the current
 neutron position and determines if surface tracking or delta-tracking
 should be used. If delta-tracking is used, the code then determines if
 the collision is virtual or real. The value of $c$ can be set in the
 input file using \verb|set dt|.
-\begin{figure}[hbtp]\centering
-  \begin{tikzpicture}[scale=1.5]
-    \draw[thick] (0,0) -- (10.0,0);
-    \foreach \x in {0,1,...,10}
-    {
-      \draw (\x, 0.1) -- (\x, -0.1);
-      \pgfmathsetmacro\result{\x * 0.1}
-      \node [below] at (\x, -0.2) {\small $\pgfmathprintnumber{\result}$};
-    }
-    \node [left] at (0,0) {$P_{\mathrm{real}}$};
-    \draw[ thick, <->] (0,0.2) -- (1,0.2);
-    \draw[ thick, <->] (1,0.2) -- (10,0.2);
-    \node [above] at (0.5, 0.2) {Ray Tracing};
-    \node [above] at (5.5, 0.2) {Delta-tracking};
-  \end{tikzpicture}
-  \caption{Ray-tracing and delta-tracking threshold values in
-    standard Serpent 2.}
-  \label{fig:ray_wdt_normal}
-\end{figure}
+% \begin{figure}[hbtp]\centering
+%   \begin{tikzpicture}[scale=1.5]
+%     \draw[thick] (0,0) -- (10.0,0);
+%     \foreach \x in {0,1,...,10}
+%     {
+%       \draw (\x, 0.1) -- (\x, -0.1);
+%       \pgfmathsetmacro\result{\x * 0.1}
+%       \node [below] at (\x, -0.2) {\small $\pgfmathprintnumber{\result}$};
+%     }
+%     \node [left] at (0,0) {$P_{\mathrm{real}}$};
+%     \draw[ thick, <->] (0,0.2) -- (1,0.2);
+%     \draw[ thick, <->] (1,0.2) -- (10,0.2);
+%     \node [above] at (0.5, 0.2) {Ray Tracing};
+%     \node [above] at (5.5, 0.2) {Delta-tracking};
+%   \end{tikzpicture}
+%   \caption{Ray-tracing and delta-tracking threshold values in
+%     standard Serpent 2.}
+%   \label{fig:ray_wdt_normal}
+% \end{figure}
 % Not sure that this is really illustrating anything.
 
-\subsubsection{Nonuniform Density Distributions}
-\label{sec:nonuniform}
+% \subsubsection{Nonuniform Density Distributions}
+% \label{sec:nonuniform}
 
-Rejection sampling can also be used when the total cross-section is
-not constant within a material region. As discussed by
-Lepp\"{a}nen~\cite{leppanen2013}, Serpent 2 conducts a rejection
-sampling routine similar to Woodcock delta-tracking in these
-regions. Instead of sampling from a majorant cross-section across
-multiple materials, a maximum cross-section for the single material
-region is used. Unlike delta-tracking, this requires stopping the
-neutron at boundaries and resampling path lengths. This algorithm is
-not modified by the implementation of \gls{wdt} and none of the input
-files used to assess \gls{wdt} use this feature.
+% Rejection sampling can also be used when the total cross-section is
+% not constant within a material region. As discussed by
+% Lepp\"{a}nen~\cite{leppanen2013}, Serpent 2 conducts a rejection
+% sampling routine similar to Woodcock delta-tracking in these
+% regions. Instead of sampling from a majorant cross-section across
+% multiple materials, a maximum cross-section for the single material
+% region is used. Unlike delta-tracking, this requires stopping the
+% neutron at boundaries and resampling path lengths. This algorithm is
+% not modified by the implementation of \gls{wdt} and none of the input
+% files used to assess \gls{wdt} use this feature.
 % Wait, maybe I missed something, but I don't know what's going on this section / paragraph.
-
+%
+% This is extraneous and outside the scope of this. Not even sure why
+% I put it in here. -JSR
 
 %%% Local Variables:
 %%% mode: latex
