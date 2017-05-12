@@ -100,7 +100,7 @@ discussion.
 As a particle moves through a medium, multiple forces and events will
 affect its trajectory. We will consider neutral elementary particles,
 neutrons, so that the effects of gravitational and electromagnetic
-force are negligible. It is therefore a good assumption that a neutron
+forces are negligible. It is therefore a good assumption that a neutron
 will travel in a straight line until a physical collision with another
 particle. Despite the large number of neutrons present in our
 simulation, we will ignore improbable collisions between neutrons
@@ -109,7 +109,7 @@ effects, including absorption and scattering. The relative probability
 of a collision occurring and the resulting type of collision are
 dependent on the atom that the neutron collides with and the energy of the
 neutron. Modeling the propagation of neutrons is accomplished through
-a variety of algorithms, some of which we described in this section.
+a variety of algorithms, some of which we describe in this section.
 
 \subsection{Ray Tracing}
 \label{sec:ray_tracing}
@@ -169,7 +169,7 @@ increases, the value of $f(s)$ decreases; it is less probable that a
 neutron will travel further without collision. The \gls{pdf} gives us the
 probability at a point $s$ that a neutron undergoes a collision
 exactly there; integrating over the distance $s$ provides us the
-probably that a neutron undergoes a collision between 0 and $s$. This
+probability that a neutron undergoes a collision between 0 and $s$. This
 is the \gls{cdf}:
 \begin{equation}
   \label{eq:cdf}
@@ -187,7 +187,7 @@ $F(s)$, to approach unity. Plots illustrating the behavior of the
 
 As the \gls{cdf} ranges from zero to unity, we can sample its value by
 a uniformly distributed random variable $\xi \in [0,1)$. The distance
-traveled, $s$, referred to as the path length, can then be expressed as
+
 a function of this sampled random variable:
 \begin{align*}
   F(s) = 1 - e^{-s\Sigma_t} &= \xi \:,\\
@@ -424,7 +424,7 @@ given boundary. This allows us to avoid determining the distance to
 the nearest boundary after each path length sampling. Delta-tracking
 is also much more efficient in regions where the geometry is complex
 or material region thicknesses are on the same order as the path
-length.% I'd add a sentence about why this is important--make us see that this is a thing it is
+length. % I'd add a sentence about why this is important--make us see that this is a thing it is
 % a good idea to choose sometimes; the imbalance in talking about the negative
 % properties leaves me wondering why anyone would choose it.
 This method can become computationally inefficient in
